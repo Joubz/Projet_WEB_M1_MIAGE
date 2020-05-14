@@ -2,79 +2,111 @@
 
 
 <mat-horizontal-stepper labelPosition="bottom" [linear]="false" #stepper>
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
+  <mat-step [stepControl]="patientFormGroup">
+    <form [formGroup]="patientFormGroup">
       <ng-template matStepLabel>Patient</ng-template>
       <mat-card>
         <mat-card-content>
-          <mat-grid-list cols="2" rowHeight="12:1">
+          <mat-grid-list cols="2" rowHeight="11:1">
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Nom</mat-label>
-                <input matInput placeholder="Nom" formControlName="firstCtrl" required>
+                <input matInput placeholder="Nom" [formControl]="nameCtrl" required>
+                <mat-error *ngIf="nameCtrl.hasError('required')">
+                  Veuillez indiquer un nom
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Prénom</mat-label>
-                <input matInput placeholder="Prénom" formControlName="firstCtrl" required>
+                <input matInput placeholder="Prénom" [formControl]="firstNameCtrl" required>
+                <mat-error *ngIf="firstNameCtrl.hasError('required')">
+                  Veuillez indiquer un prénom
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Téléphone</mat-label>
-                <input matInput placeholder="Téléphone" formControlName="firstCtrl" required>
+                <input matInput placeholder="Téléphone" [formControl]="phoneCtrl" required>
+                <mat-error *ngIf="phoneCtrl.hasError('required')">
+                  Veuillez indiquer un numéro de téléphone
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="Email" formControlName="emailCtrl" required>
+                <input matInput placeholder="Email" [formControl]="mailCtrl" required>
+                <mat-error *ngIf="mailCtrl.hasError('required')">
+                  Veuillez indiquer un mail
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Date de naissance</mat-label>
-                <input matInput [matDatepicker]="picker" required>
+                <input matInput [matDatepicker]="picker" [formControl]="birthDateCtrl" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="birthDateCtrl.hasError('required')">
+                  Veuillez choisir une date de début
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Sexe</mat-label>
-                <mat-select formControlName="firstCtrl" required>
+                <mat-select [formControl]="sexCtrl" required>
                   <mat-option *ngFor="let sex of sexes" [value]="sex.value">
                     {{sex.viewValue}}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="sexCtrl.hasError('required')">
+                  Veuillez indiquer votre sexe
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Poids</mat-label>
-                <input matInput placeholder="Poids" formControlName="firstCtrl" required>
+                <input matInput placeholder="Poids" [formControl]="weightCtrl" required>
+                <mat-error *ngIf="weightCtrl.hasError('required')">
+                  Veuillez indiquer votre poids
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Taille</mat-label>
-                <input matInput placeholder="Taille" formControlName="firstCtrl" required>
+                <input matInput placeholder="Taille" [formControl]="sizeCtrl" required>
+                <mat-error *ngIf="weightCtrl.hasError('required')">
+                  Veuillez indiquer votre taille
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
           </mat-grid-list>
         </mat-card-content>
+
         <mat-card-actions>
           <div>
-            <button mat-button matStepperNext>Suivant</button>
+            <button mat-button [disabled]="!patientFormGroup.valid" matStepperNext>Suivant</button>
           </div>
         </mat-card-actions>
       </mat-card>
 
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup" optional>
-    <form [formGroup]="secondFormGroup">
+  <mat-step [stepControl]="doctorFormGroup" optional>
+    <form [formGroup]="doctorFormGroup">
       <ng-template matStepLabel>Docteur</ng-template>
       <mat-form-field>
         <mat-label>Address</mat-label>

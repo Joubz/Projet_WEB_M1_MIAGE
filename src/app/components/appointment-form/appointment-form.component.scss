@@ -1,7 +1,16 @@
 .mat-form-field {
-  margin-top: 16px;
+  width: 90%;
+}
+
+.mat-card {
+  border: solid grey;
 }
 
 .mat-card-content {
   display: grid;
+}
+
+.mat-card-actions {
+  margin-left: auto;
+  margin-right: auto;
 }
