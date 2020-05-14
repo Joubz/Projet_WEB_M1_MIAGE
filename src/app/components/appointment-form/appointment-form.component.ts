@@ -6,6 +6,11 @@ interface Sex {
   viewValue: string;
 }
 
+interface Doctor {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-appointment-form',
   templateUrl: './appointment-form.component.html',
@@ -22,11 +27,18 @@ export class AppointmentFormComponent implements OnInit {
   sizeCtrl: FormControl;
   patientFormGroup: FormGroup;
 
+  doctorChoiceCtrl: FormControl;
   doctorFormGroup: FormGroup;
 
   sexes: Sex[] = [
     {value: 'man-0', viewValue: 'Homme'},
     {value: 'woman-1', viewValue: 'Femme'}
+  ];
+
+  doctors: Doctor[] = [
+    {value: 'doctor-0', viewValue: 'Dr Joubert - Généraliste'},
+    {value: 'doctor-1', viewValue: 'Dr Bascouzaraix - Dentiste'},
+    {value: 'doctor-2', viewValue: 'Dr Pissotte - Ostéopathe'},
   ];
 
 
@@ -51,12 +63,14 @@ export class AppointmentFormComponent implements OnInit {
       weight: this.weightCtrl,
       size: this.sizeCtrl
     });
+
+    this.doctorChoiceCtrl = formBuilder.control('', [Validators.required]);
+    this.doctorFormGroup = formBuilder.group({
+      doctorChoice: this.doctorChoiceCtrl
+    });
   }
 
   ngOnInit() {
-    this.doctorFormGroup = this.formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
   }
 
 }
