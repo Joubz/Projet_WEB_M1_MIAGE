@@ -1,0 +1,98 @@
+<h1>Bienvenue sur le site de Bordeaux Medic</h1>
+
+
+<mat-horizontal-stepper labelPosition="bottom" [linear]="false" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Patient</ng-template>
+      <mat-card>
+        <mat-card-content>
+          <mat-grid-list cols="2" rowHeight="12:1">
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Nom</mat-label>
+                <input matInput placeholder="Nom" formControlName="firstCtrl" required>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Prénom</mat-label>
+                <input matInput placeholder="Prénom" formControlName="firstCtrl" required>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Téléphone</mat-label>
+                <input matInput placeholder="Téléphone" formControlName="firstCtrl" required>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" formControlName="emailCtrl" required>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Date de naissance</mat-label>
+                <input matInput [matDatepicker]="picker" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Sexe</mat-label>
+                <mat-select formControlName="firstCtrl" required>
+                  <mat-option *ngFor="let sex of sexes" [value]="sex.value">
+                    {{sex.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Poids</mat-label>
+                <input matInput placeholder="Poids" formControlName="firstCtrl" required>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <mat-form-field appearance="fill">
+                <mat-label>Taille</mat-label>
+                <input matInput placeholder="Taille" formControlName="firstCtrl" required>
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+        <mat-card-actions>
+          <div>
+            <button mat-button matStepperNext>Suivant</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" optional>
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Docteur</ng-template>
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
