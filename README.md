@@ -25,3 +25,18 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+## Commandes git
+
+Pour cloner le projet : Dans un répertoire : Git Bash : git clone https://github.com/Joubz/Projet_WEB_M1_MIAGE.git
+
+Pour voir les modifs : git status
+
+Pour add : git add nomFichier
+
+Pour commit : git commit -m "message"
+
+pour push : git push
+
+pour recup modif : git pull
