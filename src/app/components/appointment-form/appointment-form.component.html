@@ -65,8 +65,8 @@
               <mat-form-field appearance="fill">
                 <mat-label>Sexe</mat-label>
                 <mat-select [formControl]="sexCtrl" required>
-                  <mat-option *ngFor="let sex of sexes" [value]="sex.value">
-                    {{sex.viewValue}}
+                  <mat-option *ngFor="let sex of sexes" [value]="sex">
+                    {{sex.toString()}}
                   </mat-option>
                 </mat-select>
                 <mat-error *ngIf="sexCtrl.hasError('required')">
@@ -117,15 +117,20 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Docteur</mat-label>
-                <mat-select [formControl]="doctorChoiceCtrl" required>
-                  <mat-option *ngFor="let doctor of doctors" [value]="doctor.value">
-                    {{doctor.viewValue}}
+                <mat-select [formControl]="doctorChoiceCtrl" (selectionChange)="onDoctorSelectionChange($event.value)"  required>
+                  <mat-option *ngFor="let doctor of doctors" [value]="doctor">
+                    {{doctor.title()}}
                   </mat-option>
                 </mat-select>
                 <mat-error *ngIf="doctorChoiceCtrl.hasError('required')">
                   Veuillez choisir votre docteur
                 </mat-error>
               </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+              <mat-label>Adresse : </mat-label>
+              <mat-label> {{doctorAdress}} </mat-label>
             </mat-grid-tile>
 
           </mat-grid-list>

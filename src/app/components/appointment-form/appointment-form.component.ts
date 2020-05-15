@@ -1,20 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Doctor} from "../../classes/Doctor";
+import {SexType} from "../../classes/SexType";
 
-interface Sex {
-  value: string;
-  viewValue: string;
-}
-
-interface Doctor {
-  value: string;
-  viewValue: string;
-}
-
+/**
+ * Nathan Joubert
+ */
 @Component({
-  selector: 'app-appointment-form',
-  templateUrl: './appointment-form.component.html',
-  styleUrls: ['./appointment-form.component.scss']
+  selector: "app-appointment-form",
+  templateUrl: "./appointment-form.component.html",
+  styleUrls: ["./appointment-form.component.scss"]
 })
 export class AppointmentFormComponent implements OnInit {
   nameCtrl: FormControl;
@@ -30,29 +25,28 @@ export class AppointmentFormComponent implements OnInit {
   doctorChoiceCtrl: FormControl;
   doctorFormGroup: FormGroup;
 
-  sexes: Sex[] = [
-    {value: 'man-0', viewValue: 'Homme'},
-    {value: 'woman-1', viewValue: 'Femme'}
-  ];
+  doctor1: Doctor;
+  doctor2: Doctor;
+  doctor3: Doctor;
+  doctors: Doctor[];
+  doctorAdress: string;
 
-  doctors: Doctor[] = [
-    {value: 'doctor-0', viewValue: 'Dr Joubert - Généraliste'},
-    {value: 'doctor-1', viewValue: 'Dr Bascouzaraix - Dentiste'},
-    {value: 'doctor-2', viewValue: 'Dr Pissotte - Ostéopathe'},
-  ];
+  sexType = SexType;
+  sexes: string[];
+
 
 
   constructor(
     private formBuilder: FormBuilder
   ) {
-    this.nameCtrl = formBuilder.control('', [Validators.required]);
-    this.firstNameCtrl = formBuilder.control('', [Validators.required]);
-    this.phoneCtrl = formBuilder.control('', [Validators.required]);
-    this.mailCtrl = formBuilder.control('', [Validators.required]);
-    this.birthDateCtrl = formBuilder.control('', [Validators.required]);
-    this.sexCtrl = formBuilder.control('', [Validators.required]);
-    this.weightCtrl = formBuilder.control('', [Validators.required]);
-    this.sizeCtrl = formBuilder.control('', [Validators.required]);
+    this.nameCtrl = formBuilder.control("", [Validators.required]);
+    this.firstNameCtrl = formBuilder.control("", [Validators.required]);
+    this.phoneCtrl = formBuilder.control("", [Validators.required]);
+    this.mailCtrl = formBuilder.control("", [Validators.required]);
+    this.birthDateCtrl = formBuilder.control("", [Validators.required]);
+    this.sexCtrl = formBuilder.control("", [Validators.required]);
+    this.weightCtrl = formBuilder.control("", [Validators.required]);
+    this.sizeCtrl = formBuilder.control("", [Validators.required]);
     this.patientFormGroup = formBuilder.group({
       name: this.nameCtrl,
       firstName: this.firstNameCtrl,
@@ -64,13 +58,30 @@ export class AppointmentFormComponent implements OnInit {
       size: this.sizeCtrl
     });
 
-    this.doctorChoiceCtrl = formBuilder.control('', [Validators.required]);
+    this.doctorChoiceCtrl = formBuilder.control("", [Validators.required]);
     this.doctorFormGroup = formBuilder.group({
       doctorChoice: this.doctorChoiceCtrl
     });
   }
 
   ngOnInit() {
+
+  //  this.sexType = SexType;
+    this.sexes = [];
+    this.sexes = Object.keys(this.sexType);
+
+    this.doctor1 = new Doctor("Dr Joubert", "Généraliste", "33 rue Emile Combes, 33400 Talence");
+    this.doctor2 =  new Doctor("Dr Bascouzaraix", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence");
+    this.doctor3 =  new Doctor("Dr Pissotte", "Ostéopathe", "6 rue du Luc, 33400 Talence");
+
+    this.doctors = [];
+    this.doctors.push(this.doctor1);
+    this.doctors.push(this.doctor2);
+    this.doctors.push(this.doctor3);
   }
 
+
+  onDoctorSelectionChange(doctor: Doctor) {
+    this.doctorAdress = doctor.adress;
+  }
 }
