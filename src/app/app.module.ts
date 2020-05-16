@@ -4,7 +4,7 @@ import {NgModule} from "@angular/core";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatInputModule} from "@angular/material";
+import {MatInputModule, MatRadioModule, MatTableModule} from '@angular/material';
 import {MatButtonModule} from "@angular/material/button";
 import {MatSliderModule} from "@angular/material/slider";
 import {AppointmentFormComponent} from "./components/appointment-form/appointment-form.component";
@@ -40,7 +40,9 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     MatNativeDateModule,
     MatSelectModule,
     MatGridListModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatTableModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

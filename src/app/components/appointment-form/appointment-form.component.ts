@@ -6,7 +6,16 @@ import {Doctor} from "../../classes/Doctor";
 import {SexType} from "../../classes/SexType";
 import {CalendarComponent} from "../calendar/calendar.component";
 
+export interface AppointementElement {
+  schedule: string;
+}
 
+const APPOINTEMNT_DATA: AppointementElement[] = [
+  {schedule: "10h-10h30"},
+  {schedule: "10h30-11h"},
+  {schedule: "15h30-16h"},
+  {schedule: "17h-17h30"},
+];
 
 /**
  * Nathan Joubert
@@ -21,7 +30,8 @@ export class AppointmentFormComponent implements OnInit {
   @ViewChild("myCalendar")
   myCalendar: CalendarComponent;
 
-
+  displayedColumns: string[] = ["selection", "schedule"];
+  dataSource = APPOINTEMNT_DATA;
 
 
   nameCtrl: FormControl;

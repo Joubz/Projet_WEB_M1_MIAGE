@@ -117,7 +117,8 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Docteur</mat-label>
-                <mat-select [formControl]="doctorChoiceCtrl" (selectionChange)="onDoctorSelectionChange($event.value)"  required>
+                <mat-select [formControl]="doctorChoiceCtrl" (selectionChange)="onDoctorSelectionChange($event.value)"
+                            required>
                   <mat-option *ngFor="let doctor of doctors" [value]="doctor">
                     {{doctor.title()}}
                   </mat-option>
@@ -129,7 +130,7 @@
             </mat-grid-tile>
 
             <mat-grid-tile>
-              <mat-label>Adresse : </mat-label>
+              <mat-label>Adresse :</mat-label>
               <mat-label> {{doctorAdress}} </mat-label>
             </mat-grid-tile>
 
@@ -153,18 +154,38 @@
     <mat-card>
       <mat-card-content>
 
+        <mat-grid-list cols="2" rowHeight="400px">
 
+          <mat-grid-tile>
             <app-calendar #myCalendar (dateSelected)="dateSelected($event)">
             </app-calendar>
+          </mat-grid-tile>
 
-
+          <mat-grid-tile>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              <ng-container matColumnDef="selection">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let appointement">
+                  <mat-radio-button class="example-radio-button">
+                  </mat-radio-button>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="schedule">
+                <th mat-header-cell *matHeaderCellDef> Horaires</th>
+                <td mat-cell *matCellDef="let appointement"> {{appointement.schedule}} </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </mat-grid-tile>
+        </mat-grid-list>
 
       </mat-card-content>
 
       <mat-card-actions>
         <div>
           <button mat-button matStepperPrevious>Retour</button>
-          <button mat-button  matStepperNext>Suivant</button>
+          <button mat-button matStepperNext>Suivant</button>
         </div>
       </mat-card-actions>
     </mat-card>
