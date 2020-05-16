@@ -16,11 +16,14 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material";
 import {MatSelectModule} from "@angular/material/select";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppointmentFormComponent
+    AppointmentFormComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatGridListModule
+    MatGridListModule,
+    MatMomentDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,12 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Moment} from "moment";
+import {MatCalendar} from "@angular/material";
 import {Doctor} from "../../classes/Doctor";
 import {SexType} from "../../classes/SexType";
+import {CalendarComponent} from "../calendar/calendar.component";
+
+
 
 /**
  * Nathan Joubert
@@ -12,6 +17,13 @@ import {SexType} from "../../classes/SexType";
   styleUrls: ["./appointment-form.component.scss"]
 })
 export class AppointmentFormComponent implements OnInit {
+  // @ts-ignore
+  @ViewChild("myCalendar")
+  myCalendar: CalendarComponent;
+
+
+
+
   nameCtrl: FormControl;
   firstNameCtrl: FormControl;
   phoneCtrl: FormControl;
@@ -80,8 +92,11 @@ export class AppointmentFormComponent implements OnInit {
     this.doctors.push(this.doctor3);
   }
 
-
   onDoctorSelectionChange(doctor: Doctor) {
     this.doctorAdress = doctor.adress;
+  }
+
+  dateSelected(value: Moment) {
+    alert(value);
   }
 }

@@ -150,12 +150,24 @@
   <mat-step>
     <ng-template matStepLabel>Rendez-vous</ng-template>
 
-    <p>You are now done.</p>
+    <mat-card>
+      <mat-card-content>
 
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-    </div>
+
+            <app-calendar #myCalendar (dateSelected)="dateSelected($event)">
+            </app-calendar>
+
+
+
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button  matStepperNext>Suivant</button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
 
   </mat-step>
 
