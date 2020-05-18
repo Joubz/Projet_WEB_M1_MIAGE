@@ -28,36 +28,14 @@ export class CalendarComponent implements AfterViewInit {
     if (buttons) {
       Array.from(buttons).forEach(button => {
         this.renderer.listen(button, "click", () => {
-          console.log("Arrow buttons clicked");
         });
       });
     }
   }
 
-  monthSelected(date: Moment) {
-    console.log("month changed");
-  }
-
   dateChanged() {
     this.calendar.activeDate = this.selectedDate;
     this.dateSelected.emit(this.selectedDate);
-  }
-
-  prevDay() {
-    const prevMoment = moment(this.selectedDate).add(-1, "days");
-    this.selectedDate = prevMoment;
-    this.dateChanged();
-  }
-
-  today() {
-    this.selectedDate = moment();
-    this.dateChanged();
-  }
-
-  nextDay() {
-    const nextMoment = moment(this.selectedDate).add(1, "days");
-    this.selectedDate = nextMoment;
-    this.dateChanged();
   }
 
 }

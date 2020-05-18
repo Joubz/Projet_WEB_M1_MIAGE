@@ -4,7 +4,7 @@ import {NgModule} from "@angular/core";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatInputModule, MatRadioModule, MatTableModule} from '@angular/material';
+import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatInputModule, MatRadioModule, MatTableModule} from "@angular/material";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSliderModule} from "@angular/material/slider";
 import {AppointmentFormComponent} from "./components/appointment-form/appointment-form.component";
@@ -16,8 +16,9 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material";
 import {MatSelectModule} from "@angular/material/select";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatMomentDateModule} from "@angular/material-moment-adapter";
-import { CalendarComponent } from './components/calendar/calendar.component';
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
+import { CalendarComponent } from "./components/calendar/calendar.component";
+import {dateFrenchFormat} from "./components/calendar/dateFrenchFormat";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,11 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     MatTableModule,
     MatRadioModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
+    { provide: MAT_DATE_FORMATS, useValue: dateFrenchFormat },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

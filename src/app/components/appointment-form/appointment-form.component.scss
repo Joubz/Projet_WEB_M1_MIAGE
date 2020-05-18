@@ -3,7 +3,7 @@
 }
 
 .mat-card {
-  border: solid grey;
+  border: solid #3F51B5;
 }
 
 .mat-card-content {
@@ -13,4 +13,8 @@
 .mat-card-actions {
   margin-left: auto;
   margin-right: auto;
+}
+
+.nextButton {
+  float: right
 }

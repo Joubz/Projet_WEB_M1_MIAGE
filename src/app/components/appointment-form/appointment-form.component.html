@@ -7,7 +7,7 @@
       <ng-template matStepLabel>Patient</ng-template>
       <mat-card>
         <mat-card-content>
-          <mat-grid-list cols="2" rowHeight="11:1">
+          <mat-grid-list cols="2" rowHeight="12:1">
 
             <mat-grid-tile>
               <mat-form-field appearance="fill">
@@ -77,8 +77,8 @@
 
             <mat-grid-tile>
               <mat-form-field appearance="fill">
-                <mat-label>Poids</mat-label>
-                <input matInput placeholder="Poids" [formControl]="weightCtrl" required>
+                <mat-label>Poids (en kilogrammes)</mat-label>
+                <input matInput placeholder="Poids (en kilogrammes)" [formControl]="weightCtrl" required>
                 <mat-error *ngIf="weightCtrl.hasError('required')">
                   Veuillez indiquer votre poids
                 </mat-error>
@@ -87,25 +87,28 @@
 
             <mat-grid-tile>
               <mat-form-field appearance="fill">
-                <mat-label>Taille</mat-label>
-                <input matInput placeholder="Taille" [formControl]="sizeCtrl" required>
+                <mat-label>Taille (en centimètres)</mat-label>
+                <input matInput placeholder="Taille (en centimètres)" [formControl]="sizeCtrl" required>
                 <mat-error *ngIf="weightCtrl.hasError('required')">
                   Veuillez indiquer votre taille
                 </mat-error>
               </mat-form-field>
             </mat-grid-tile>
+
           </mat-grid-list>
         </mat-card-content>
 
         <mat-card-actions>
           <div>
-            <button mat-button [disabled]="!patientFormGroup.valid" matStepperNext>Suivant</button>
+            <button mat-button [disabled]="true" matStepperPrevious>Retour</button>
+            <button class="nextButton" mat-button [disabled]="!patientFormGroup.valid" matStepperNext>Suivant</button>
           </div>
         </mat-card-actions>
       </mat-card>
 
     </form>
   </mat-step>
+
   <mat-step [stepControl]="doctorFormGroup">
     <form [formGroup]="doctorFormGroup">
       <ng-template matStepLabel>Docteur</ng-template>
@@ -140,7 +143,7 @@
         <mat-card-actions>
           <div>
             <button mat-button matStepperPrevious>Retour</button>
-            <button mat-button [disabled]="!doctorFormGroup.valid" matStepperNext>Suivant</button>
+            <button class="nextButton" mat-button [disabled]="!doctorFormGroup.valid" matStepperNext>Suivant</button>
           </div>
         </mat-card-actions>
       </mat-card>
@@ -185,7 +188,7 @@
       <mat-card-actions>
         <div>
           <button mat-button matStepperPrevious>Retour</button>
-          <button mat-button matStepperNext>Suivant</button>
+          <button class="nextButton" mat-button matStepperNext>Suivant</button>
         </div>
       </mat-card-actions>
     </mat-card>
@@ -203,6 +206,4 @@
     </div>
 
   </mat-step>
-
-
 </mat-horizontal-stepper>
