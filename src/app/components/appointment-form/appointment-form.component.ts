@@ -7,6 +7,7 @@ import {SexType} from "../../classes/SexType";
 import {CalendarComponent} from "../calendar/calendar.component";
 import {Schedule} from "../../classes/Schedule";
 import * as moment from "moment";
+import {JSONReaderService} from "../../services/JSONReaderService";
 
 
 /**
@@ -66,7 +67,8 @@ export class AppointmentFormComponent implements OnInit {
   private tmpMonth: string;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private jsonReaderService: JSONReaderService
   ) {
     this.nameCtrl = formBuilder.control("", [Validators.required]);
     this.firstNameCtrl = formBuilder.control("", [Validators.required]);
@@ -94,6 +96,10 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.jsonReaderService.getJSON().subscribe(data => {
+      console.log(data);
+    });
 
     //  this.sexType = SexType;
     this.sexes = [];

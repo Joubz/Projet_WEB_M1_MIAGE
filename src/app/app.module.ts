@@ -19,6 +19,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
 import { CalendarComponent } from "./components/calendar/calendar.component";
 import {dateFrenchFormat} from "./components/calendar/dateFrenchFormat";
+import {JSONReaderService} from "./services/JSONReaderService";
+import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import {dateFrenchFormat} from "./components/calendar/dateFrenchFormat";
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatInputModule,
@@ -46,6 +49,8 @@ import {dateFrenchFormat} from "./components/calendar/dateFrenchFormat";
     MatRadioModule
   ],
   providers: [
+    HttpClient,
+    JSONReaderService,
     { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
     { provide: MAT_DATE_FORMATS, useValue: dateFrenchFormat },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
