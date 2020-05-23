@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <mat-icon class="menu-icon"> menu </mat-icon>
+  <span>Bordeaux Medic</span>
+  <span class="fill-remaining-space"></span>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" mdTooltip="Change theme"><mat-icon>format_color_fill</mat-icon></button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="changeTheme('light-theme')">Thème clair</button>
+    <button mat-menu-item (click)="changeTheme('dark-theme')">Thème sombre</button>
+  </mat-menu>
+</mat-toolbar>

@@ -7,7 +7,6 @@ export class JSONReaderService {
 
   constructor(private http: HttpClient) {
     this.getJSON().subscribe(data => {
-      console.log(data);
     });
   }
 

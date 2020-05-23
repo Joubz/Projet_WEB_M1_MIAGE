@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Moment} from "moment";
-import {MatCalendar} from "@angular/material";
 import {Doctor} from "../../classes/Doctor";
 import {SexType} from "../../classes/SexType";
 import {CalendarComponent} from "../calendar/calendar.component";

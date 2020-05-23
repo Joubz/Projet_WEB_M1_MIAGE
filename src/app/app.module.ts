@@ -4,7 +4,15 @@ import {NgModule} from "@angular/core";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatInputModule, MatRadioModule, MatTableModule} from "@angular/material";
+import {
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatIconModule,
+  MatInputModule, MatMenuModule,
+  MatRadioModule,
+  MatTableModule,
+  MatToolbarModule
+} from "@angular/material";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSliderModule} from "@angular/material/slider";
 import {AppointmentFormComponent} from "./components/appointment-form/appointment-form.component";
@@ -20,13 +28,16 @@ import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/mat
 import { CalendarComponent } from "./components/calendar/calendar.component";
 import {dateFrenchFormat} from "./components/calendar/dateFrenchFormat";
 import {JSONReaderService} from "./services/JSONReaderService";
-import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
+import {ThemingService} from "./services/theming.service";
+import {HttpClientModule} from "@angular/common/http";
+import {ToolBarComponent} from "./components/tool-bar/tool-bar.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    ToolBarComponent,
     AppointmentFormComponent,
-    CalendarComponent
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,11 +57,15 @@ import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
     MatGridListModule,
     MatMomentDateModule,
     MatTableModule,
-    MatRadioModule
+    MatRadioModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatMenuModule
   ],
   providers: [
-    HttpClient,
+    HttpClientModule,
     JSONReaderService,
+    ThemingService,
     { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
     { provide: MAT_DATE_FORMATS, useValue: dateFrenchFormat },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
