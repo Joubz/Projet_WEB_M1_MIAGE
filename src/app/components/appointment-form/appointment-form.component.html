@@ -1,10 +1,10 @@
-<h1>Bienvenue sur le site de Bordeaux Medic</h1>
-
-
 <mat-horizontal-stepper labelPosition="bottom" [linear]="false" #stepper>
   <mat-step [stepControl]="patientTabFormGroup">
     <form [formGroup]="patientTabFormGroup">
       <ng-template matStepLabel>Patient</ng-template>
+
+      <p>Veuillez renseignez vos informations personnelles</p>
+
       <mat-card>
         <mat-card-content>
           <mat-grid-list cols="2" rowHeight="12:1">
@@ -113,6 +113,7 @@
   <mat-step [stepControl]="doctorTabFormGroup">
     <form [formGroup]="doctorTabFormGroup">
       <ng-template matStepLabel>Docteur</ng-template>
+      <p>Veuillez choisir un docteur :</p>
 
       <mat-card>
         <mat-card-content>
@@ -155,13 +156,15 @@
   <mat-step>
     <ng-template matStepLabel>Rendez-vous</ng-template>
 
+    <p>Veuillez choisir une date et un horaire de rendez-vous :</p>
+
     <mat-card>
       <mat-card-content>
 
         <mat-grid-list cols="2" rowHeight="400px">
 
           <mat-grid-tile>
-            <app-calendar #myCalendar (dateSelected)="dateSelected($event)" [formControl]="dayCtrl">
+            <app-calendar #myCalendar (dateSelected)="dateSelected($event)">
             </app-calendar>
           </mat-grid-tile>
 
@@ -170,7 +173,7 @@
               <ng-container matColumnDef="selection">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let appointement">
-                  <mat-radio-button class="example-radio-button">
+                  <mat-radio-button (click)="setDayAndScheduleCtrl(appointement)">
                   </mat-radio-button>
                 </td>
               </ng-container>
@@ -202,17 +205,17 @@
   <mat-step>
     <ng-template matStepLabel>Récapitulatif</ng-template>
 
-    <p>You are now done.</p>
+    <p>Récapitulatif des informations saisies :</p>
 
     <mat-card>
       <mat-card-content>
         <mat-grid-list cols="2" rowHeight="12:1">
 
           <mat-grid-tile>
-          <mat-form-field appearance="fill">
-            <mat-label>Nom</mat-label>
-            <input matInput [disabled]="true" value="{{nameCtrl.value}}">
-          </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Nom</mat-label>
+              <input matInput [disabled]="true" value="{{nameCtrl.value}}">
+            </mat-form-field>
           </mat-grid-tile>
 
 
@@ -223,13 +226,55 @@
             </mat-form-field>
           </mat-grid-tile>
 
+          <mat-grid-tile>
+            <mat-form-field appearance="fill">
+              <mat-label>Téléphone</mat-label>
+              <input matInput [disabled]="true" value="{{phoneCtrl.value}}">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input matInput [disabled]="true" value="{{mailCtrl.value}}">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="fill">
+              <mat-label>Docteur</mat-label>
+              <input matInput [disabled]="true" value="{{doctorChoiceCtrl.value}}">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="fill">
+              <mat-label>Spécialité docteur</mat-label>
+              <input matInput [disabled]="true" value="{{doctorChoiceCtrl.value}}">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="fill">
+              <mat-label>Date du rendez-vous</mat-label>
+              <input matInput [disabled]="true" value="{{dayCtrl.value}}">
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="fill">
+              <mat-label>Horaire du rendez-vous</mat-label>
+              <input matInput [disabled]="true" value="{{scheduleCtrl.value}}">
+            </mat-form-field>
+          </mat-grid-tile>
+
         </mat-grid-list>
       </mat-card-content>
 
       <mat-card-actions>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button (click)="stepper.reset()">Réinitialiser</button>
         </div>
       </mat-card-actions>
     </mat-card>

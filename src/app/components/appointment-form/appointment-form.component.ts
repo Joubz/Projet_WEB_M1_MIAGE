@@ -66,6 +66,7 @@ export class AppointmentFormComponent implements OnInit {
   private tmpDay: string;
   private tmpMonth: string;
   private find: boolean;
+  private chooseDate: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -112,6 +113,7 @@ export class AppointmentFormComponent implements OnInit {
         this.schedules.push(schedule);
       });
       this.dateSelected(moment());
+      this.dayCtrl.setValue(this.conversionToFrenchDate(moment()));
     });
 
     this.sexes = [];
@@ -157,11 +159,17 @@ export class AppointmentFormComponent implements OnInit {
     this.schedules.forEach(schedule => {
       if (this.conversionToFrenchDate(value) === schedule.date) {
         this.dataSource = schedule.appointements;
+        this.chooseDate = schedule.date;
         this.find = true;
       }
     });
     if (this.find === false) {
       this.dataSource = [];
     }
+  }
+
+  setDayAndScheduleCtrl(appointement: string) {
+    this.dayCtrl.setValue(this.chooseDate);
+    this.scheduleCtrl.setValue(appointement);
   }
 }
