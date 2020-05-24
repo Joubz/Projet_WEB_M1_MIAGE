@@ -3,7 +3,7 @@
     <form [formGroup]="patientTabFormGroup">
       <ng-template matStepLabel>Patient</ng-template>
 
-      <p>Veuillez renseignez vos informations personnelles</p>
+      <p>Veuillez renseigner vos informations personnelles</p>
 
       <mat-card>
         <mat-card-content>
@@ -12,9 +12,9 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Nom</mat-label>
-                <input matInput placeholder="Nom" [formControl]="nameCtrl" required>
+                <input matInput placeholder="Nom" formControlName="nameCtrl" required>
                  <mat-icon matSuffix>perm_identity</mat-icon>
-                <mat-error *ngIf="nameCtrl.hasError('required')">
+                <mat-error *ngIf="patientTabFormGroup.get('nameCtrl').hasError('required')">
                   Veuillez indiquer un nom
                 </mat-error>
               </mat-form-field>
@@ -23,9 +23,9 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Prénom</mat-label>
-                <input matInput placeholder="Prénom" [formControl]="firstNameCtrl" required>
+                <input matInput placeholder="Prénom" formControlName="firstNameCtrl" required>
                 <mat-icon matSuffix>perm_identity</mat-icon>
-                <mat-error *ngIf="firstNameCtrl.hasError('required')">
+                <mat-error *ngIf="patientTabFormGroup.get('firstNameCtrl').hasError('required')">
                   Veuillez indiquer un prénom
                 </mat-error>
               </mat-form-field>
@@ -34,9 +34,9 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Téléphone</mat-label>
-                <input matInput placeholder="Téléphone" [formControl]="phoneCtrl" required>
+                <input matInput placeholder="Téléphone" formControlName="phoneCtrl" required>
                 <mat-icon matSuffix>phone</mat-icon>
-                <mat-error *ngIf="phoneCtrl.hasError('required')">
+                <mat-error *ngIf="patientTabFormGroup.get('phoneCtrl').hasError('required')">
                   Veuillez indiquer un numéro de téléphone
                 </mat-error>
               </mat-form-field>
@@ -45,9 +45,9 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="Email" [formControl]="mailCtrl" required>
+                <input matInput placeholder="Email" formControlName="mailCtrl" required>
                 <mat-icon matSuffix>mail</mat-icon>
-                <mat-error *ngIf="mailCtrl.hasError('required')">
+                <mat-error *ngIf="patientTabFormGroup.get('mailCtrl').hasError('required')">
                   Veuillez indiquer un mail
                 </mat-error>
               </mat-form-field>
@@ -56,11 +56,11 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Date de naissance</mat-label>
-                <input matInput [matDatepicker]="picker" [formControl]="birthDateCtrl" required>
+                <input matInput [matDatepicker]="picker" formControlName="birthDateCtrl" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="birthDateCtrl.hasError('required')">
-                  Veuillez choisir une date de début
+                <mat-error *ngIf="patientTabFormGroup.get('birthDateCtrl').hasError('required')">
+                  Veuillez choisir une date de naissance
                 </mat-error>
               </mat-form-field>
             </mat-grid-tile>
@@ -68,12 +68,12 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Sexe</mat-label>
-                <mat-select [formControl]="sexCtrl" required>
+                <mat-select formControlName="sexCtrl" required>
                   <mat-option *ngFor="let sex of sexes" [value]="sex">
                     {{sex.toString()}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="sexCtrl.hasError('required')">
+                <mat-error *ngIf="patientTabFormGroup.get('sexCtrl').hasError('required')">
                   Veuillez indiquer votre sexe
                 </mat-error>
               </mat-form-field>
@@ -82,8 +82,8 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Poids (en kilogrammes)</mat-label>
-                <input matInput placeholder="Poids (en kilogrammes)" [formControl]="weightCtrl" required>
-                <mat-error *ngIf="weightCtrl.hasError('required')">
+                <input matInput placeholder="Poids (en kilogrammes)" formControlName="weightCtrl" required>
+                <mat-error *ngIf="patientTabFormGroup.get('weightCtrl').hasError('required')">
                   Veuillez indiquer votre poids
                 </mat-error>
               </mat-form-field>
@@ -92,8 +92,8 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Taille (en centimètres)</mat-label>
-                <input matInput placeholder="Taille (en centimètres)" [formControl]="sizeCtrl" required>
-                <mat-error *ngIf="weightCtrl.hasError('required')">
+                <input matInput placeholder="Taille (en centimètres)" formControlName="sizeCtrl" required>
+                <mat-error *ngIf="patientTabFormGroup.get('weightCtrl').hasError('required')">
                   Veuillez indiquer votre taille
                 </mat-error>
               </mat-form-field>
@@ -140,7 +140,7 @@
 
             <mat-grid-tile>
               <mat-label>Adresse :</mat-label>
-              <mat-label> {{doctorAdress}} </mat-label>
+              <mat-label> {{selectedDoctor?.address }} </mat-label>
             </mat-grid-tile>
 
           </mat-grid-list>
@@ -177,14 +177,14 @@
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="dataSource.length !== 0">
               <ng-container matColumnDef="selection">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let appointement">
-                  <mat-radio-button (click)="setDayAndScheduleCtrl(appointement)">
+                <td mat-cell *matCellDef="let appointment">
+                  <mat-radio-button (click)="setDayAndScheduleCtrl(appointment)">
                   </mat-radio-button>
                 </td>
               </ng-container>
               <ng-container matColumnDef="schedule">
                 <th mat-header-cell *matHeaderCellDef> Horaires</th>
-                <td mat-cell *matCellDef="let appointement"> {{appointement}} </td>
+                <td mat-cell *matCellDef="let appointment"> {{appointment}} </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -220,42 +220,42 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Nom</mat-label>
-              <input matInput [disabled]="true" value="{{nameCtrl.value}}">
+              <input matInput [disabled]="true" value="{{patientTabFormGroup.get('nameCtrl').value}}">
             </mat-form-field>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Prénom</mat-label>
-              <input matInput [disabled]="true" value="{{firstNameCtrl.value}}">
+              <input matInput [disabled]="true" value="{{patientTabFormGroup.get('firstNameCtrl').value}}">
             </mat-form-field>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Téléphone</mat-label>
-              <input matInput [disabled]="true" value="{{phoneCtrl.value}}">
+              <input matInput [disabled]="true" value="{{patientTabFormGroup.get('phoneCtrl').value}}">
             </mat-form-field>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Email</mat-label>
-              <input matInput [disabled]="true" value="{{mailCtrl.value}}">
+              <input matInput [disabled]="true" value="{{patientTabFormGroup.get('mailCtrl').value}}">
             </mat-form-field>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Docteur</mat-label>
-              <input matInput [disabled]="true" value="{{doctorName}}">
+              <input matInput [disabled]="true" value="{{selectedDoctor?.name}}">
             </mat-form-field>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Spécialité docteur</mat-label>
-              <input matInput [disabled]="true" value="{{doctorSpeciality}}">
+              <input matInput [disabled]="true" value="{{selectedDoctor?.speciality}}">
             </mat-form-field>
           </mat-grid-tile>
 

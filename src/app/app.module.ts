@@ -16,10 +16,7 @@ import {
 import {MatButtonModule} from "@angular/material/button";
 import {MatSliderModule} from "@angular/material/slider";
 import {
-  AppointmentFormComponent,
-  DialogResetAppointementDialogComponent,
-  DialogConfirmAppointementDialogComponent
-} from "./components/appointment-form/appointment-form.component";
+  AppointmentFormComponent} from "./components/appointment-form/appointment-form.component";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -35,17 +32,19 @@ import {JSONReaderService} from "./services/JSONReaderService";
 import {ThemingService} from "./services/theming.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ToolBarComponent} from "./components/tool-bar/tool-bar.component";
+import {DialogResetAppointmentDialogComponent} from "./components/dialog-reset-appointment-dialog/dialog-reset-appointment-dialog.component";
+import { DialogConfirmAppointmentDialogComponent } from "./components/dialog-confirm-appointment-dialog/dialog-confirm-appointment-dialog.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolBarComponent,
     AppointmentFormComponent,
-    DialogResetAppointementDialogComponent,
-    DialogConfirmAppointementDialogComponent,
     CalendarComponent,
+    DialogResetAppointmentDialogComponent,
+    DialogConfirmAppointmentDialogComponent,
   ],
-  entryComponents: [DialogResetAppointementDialogComponent, DialogConfirmAppointementDialogComponent],
+  entryComponents: [DialogResetAppointmentDialogComponent, DialogConfirmAppointmentDialogComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

@@ -1,14 +1,14 @@
 [
   {
     "date": "18/05/2020",
-    "appointements": [
+    "appointments": [
       "10h-10h30",
       "15h30-16h"
     ]
   },
   {
     "date": "19/05/2020",
-    "appointements": [
+    "appointments": [
       "11h30-12h",
       "14h30-15h",
       "15h-15h30"
@@ -16,20 +16,20 @@
   },
   {
     "date": "20/05/2020",
-    "appointements": [
+    "appointments": [
       "9h-9h30",
       "17h30-18h"
     ]
   },
   {
     "date": "23/05/2020",
-    "appointements": [
+    "appointments": [
       "15h30-16h"
     ]
   },
   {
     "date": "24/05/2020",
-    "appointements": [
+    "appointments": [
       "10h-10h30",
       "17h30-18h"
     ]

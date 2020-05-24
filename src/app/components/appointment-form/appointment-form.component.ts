@@ -2,52 +2,16 @@ import {Component, Inject, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Moment} from "moment";
 import {Doctor} from "../../classes/Doctor";
-import {SexType} from "../../classes/SexType";
-import {CalendarComponent} from "../calendar/calendar.component";
+import {Gender} from "../../classes/Gender";
 import {Schedule} from "../../classes/Schedule";
 import * as moment from "moment";
 import {JSONReaderService} from "../../services/JSONReaderService";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
-
-
-/**
- * Dialog for reset action
- */
-@Component({
-  selector: "app-dialog-reset-appointement-dialog",
-  templateUrl: "dialog-reset-appointement-dialog.html",
-})
-export class DialogResetAppointementDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<DialogResetAppointementDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: boolean) {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
+import {DialogResetAppointmentDialogComponent} from "../dialog-reset-appointment-dialog/dialog-reset-appointment-dialog.component";
+import {DialogConfirmAppointmentDialogComponent} from "../dialog-confirm-appointment-dialog/dialog-confirm-appointment-dialog.component";
 
 /**
- * Dialog for confirm action
- */
-@Component({
-  selector: "app-dialog-confirm-appointement-dialog",
-  templateUrl: "dialog-confirm-appointement-dialog.html",
-})
-export class DialogConfirmAppointementDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<DialogConfirmAppointementDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: boolean) {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
-
-/**
- * Component for the stepper
+ * Component for the stepper form
  */
 @Component({
   selector: "app-appointment-form",
@@ -55,6 +19,7 @@ export class DialogConfirmAppointementDialogComponent {
   styleUrls: ["./appointment-form.component.scss"]
 })
 export class AppointmentFormComponent implements OnInit {
+
   // @ts-ignore
   @ViewChild("myCalendar")
   // @ts-ignore
@@ -67,17 +32,9 @@ export class AppointmentFormComponent implements OnInit {
    * Patient Tab
    */
 
-  nameCtrl: FormControl;
-  firstNameCtrl: FormControl;
-  phoneCtrl: FormControl;
-  mailCtrl: FormControl;
-  birthDateCtrl: FormControl;
-  sexCtrl: FormControl;
-  weightCtrl: FormControl;
-  sizeCtrl: FormControl;
   patientTabFormGroup: FormGroup;
 
-  sexType = SexType;
+  sexType = Gender;
   sexes: string[];
 
   /**
@@ -87,11 +44,7 @@ export class AppointmentFormComponent implements OnInit {
   doctorChoiceCtrl: FormControl;
   doctorTabFormGroup: FormGroup;
 
-  doctorName: string;
-  doctorSpeciality: string;
-  doctorAdress: string;
-
-  doctor1: Doctor;
+  selectedDoctor: Doctor;
   doctor2: Doctor;
   doctor3: Doctor;
   doctors: Doctor[];
@@ -115,23 +68,15 @@ export class AppointmentFormComponent implements OnInit {
     private jsonReaderService: JSONReaderService,
     public dialog: MatDialog
   ) {
-    this.nameCtrl = formBuilder.control("", [Validators.required]);
-    this.firstNameCtrl = formBuilder.control("", [Validators.required]);
-    this.phoneCtrl = formBuilder.control("", [Validators.required]);
-    this.mailCtrl = formBuilder.control("", [Validators.required, Validators.email]);
-    this.birthDateCtrl = formBuilder.control("", [Validators.required]);
-    this.sexCtrl = formBuilder.control("", [Validators.required]);
-    this.weightCtrl = formBuilder.control("", [Validators.required]);
-    this.sizeCtrl = formBuilder.control("", [Validators.required]);
     this.patientTabFormGroup = formBuilder.group({
-      name: this.nameCtrl,
-      firstName: this.firstNameCtrl,
-      phone: this.phoneCtrl,
-      mail: this.mailCtrl,
-      birthDate: this.birthDateCtrl,
-      sex: this.sexCtrl,
-      weight: this.weightCtrl,
-      size: this.sizeCtrl
+      nameCtrl : formBuilder.control("", [Validators.required]),
+      firstNameCtrl: formBuilder.control("", [Validators.required]),
+      phoneCtrl: formBuilder.control("", [Validators.required]),
+      mailCtrl: formBuilder.control("", [Validators.required]),
+      birthDateCtrl: formBuilder.control("", [Validators.required]),
+      sexCtrl: formBuilder.control("", [Validators.required]),
+      weightCtrl: formBuilder.control("", [Validators.required]),
+      sizeCtrl: formBuilder.control("", [Validators.required])
     });
 
     this.doctorChoiceCtrl = formBuilder.control("", [Validators.required]);
@@ -148,7 +93,7 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource = [];
+    this.dataSource = [""];
 
     this.schedules = [];
     this.jsonReaderService.getJSON().subscribe(data => {
@@ -162,20 +107,17 @@ export class AppointmentFormComponent implements OnInit {
     this.sexes = [];
     this.sexes = Object.keys(this.sexType);
 
-    this.doctor1 = new Doctor("Dr Joubert", "Généraliste", "33 rue Emile Combes, 33400 Talence");
     this.doctor2 = new Doctor("Dr Bascouzaraix", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence");
     this.doctor3 = new Doctor("Dr Pissotte", "Ostéopathe", "6 rue du Luc, 33400 Talence");
 
     this.doctors = [];
-    this.doctors.push(this.doctor1);
+    this.doctors.push(new Doctor("Dr Joubert", "Généraliste", "33 rue Emile Combes, 33400 Talence"));
     this.doctors.push(this.doctor2);
     this.doctors.push(this.doctor3);
   }
 
   onDoctorSelectionChange(doctor: Doctor) {
-    this.doctorAdress = doctor.adress;
-    this.doctorName = doctor.name;
-    this.doctorSpeciality = doctor.speciality;
+    this.selectedDoctor = doctor;
   }
 
   conversionToFrenchDate(value: Moment) {
@@ -203,7 +145,7 @@ export class AppointmentFormComponent implements OnInit {
     this.findCorrespondingDate = false;
     this.schedules.forEach(schedule => {
       if (this.conversionToFrenchDate(value) === schedule.date) {
-        this.dataSource = schedule.appointements;
+        this.dataSource = schedule.appointments;
         this.chooseDate = schedule.date;
         this.findCorrespondingDate = true;
       }
@@ -213,13 +155,13 @@ export class AppointmentFormComponent implements OnInit {
     }
   }
 
-  setDayAndScheduleCtrl(appointement: string) {
+  setDayAndScheduleCtrl(appointment: string) {
     this.dayCtrl.setValue(this.chooseDate);
-    this.scheduleCtrl.setValue(appointement);
+    this.scheduleCtrl.setValue(appointment);
   }
 
   openResetDialog(): void {
-    const dialogRef = this.dialog.open(DialogResetAppointementDialogComponent, {
+    const dialogRef = this.dialog.open(DialogResetAppointmentDialogComponent, {
       width: "300px",
       data: false
     });
@@ -231,7 +173,7 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   openConfirmDialog(): void {
-    const dialogRef = this.dialog.open(DialogConfirmAppointementDialogComponent, {
+    const dialogRef = this.dialog.open(DialogConfirmAppointmentDialogComponent, {
       width: "300px",
       data: false
     });

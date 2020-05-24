@@ -1,9 +1,9 @@
 export class Schedule {
   date: string;
-  appointements: string[];
+  appointments: string[];
 
-  constructor(date: string, appointements: string[]) {
+  constructor(date: string, appointments: string[]) {
     this.date = date;
-    this.appointements = appointements;
+    this.appointments = appointments;
   }
 }

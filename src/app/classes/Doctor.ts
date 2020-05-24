@@ -1,13 +1,13 @@
 export class Doctor {
   name: string;
   speciality: string;
-  adress: string;
+  address: string;
 
 
-  constructor(name: string, speciality: string, adress: string) {
+  constructor(name: string, speciality: string, address: string) {
     this.name = name;
     this.speciality = speciality;
-    this.adress = adress;
+    this.address = address;
   }
 
   title() {
