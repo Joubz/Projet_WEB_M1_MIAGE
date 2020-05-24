@@ -26,12 +26,6 @@ h1 {
   float: right
 }
 
-.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle , .mat-radio-outer-circle {
-  color: #3F51B5 !important;
-  border-color: #3F51B5 !important;
-}
-
-.mat-radio-button.mat-accent .mat-radio-inner-circle{
-  color: #3F51B5 !important;
-  background-color: #3F51B5 !important;
+.mat-input-element:disabled {
+  color: black;
 }
