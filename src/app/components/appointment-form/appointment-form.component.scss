@@ -13,6 +13,10 @@ h1 {
   border: solid #3F51B5;
 }
 
+.dark-theme .mat-card {
+  border: solid #455a64;
+}
+
 .mat-card-content {
   display: grid;
 }

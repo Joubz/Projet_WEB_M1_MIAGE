@@ -13,6 +13,7 @@
               <mat-form-field appearance="fill">
                 <mat-label>Nom</mat-label>
                 <input matInput placeholder="Nom" [formControl]="nameCtrl" required>
+                 <mat-icon matSuffix>perm_identity</mat-icon>
                 <mat-error *ngIf="nameCtrl.hasError('required')">
                   Veuillez indiquer un nom
                 </mat-error>
@@ -23,6 +24,7 @@
               <mat-form-field appearance="fill">
                 <mat-label>Prénom</mat-label>
                 <input matInput placeholder="Prénom" [formControl]="firstNameCtrl" required>
+                <mat-icon matSuffix>perm_identity</mat-icon>
                 <mat-error *ngIf="firstNameCtrl.hasError('required')">
                   Veuillez indiquer un prénom
                 </mat-error>
@@ -33,6 +35,7 @@
               <mat-form-field appearance="fill">
                 <mat-label>Téléphone</mat-label>
                 <input matInput placeholder="Téléphone" [formControl]="phoneCtrl" required>
+                <mat-icon matSuffix>phone</mat-icon>
                 <mat-error *ngIf="phoneCtrl.hasError('required')">
                   Veuillez indiquer un numéro de téléphone
                 </mat-error>
@@ -43,6 +46,7 @@
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" [formControl]="mailCtrl" required>
+                <mat-icon matSuffix>mail</mat-icon>
                 <mat-error *ngIf="mailCtrl.hasError('required')">
                   Veuillez indiquer un mail
                 </mat-error>
