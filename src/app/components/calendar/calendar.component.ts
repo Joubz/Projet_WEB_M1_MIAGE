@@ -8,7 +8,7 @@ import { MatCalendar } from "@angular/material";
   templateUrl: "./calendar.component.html",
   styleUrls: ["./calendar.component.scss"]
 })
-export class CalendarComponent implements AfterViewInit {
+export class CalendarComponent {
 
   @Output()
   dateSelected: EventEmitter<Moment> = new EventEmitter();
@@ -20,18 +20,7 @@ export class CalendarComponent implements AfterViewInit {
   @ViewChild("calendar")
   calendar: MatCalendar<Moment>;
 
-  constructor(private renderer: Renderer2) { }
-
-  ngAfterViewInit() {
-    const buttons = document.querySelectorAll(".mat-calendar-previous-button, .mat-calendar-next-button");
-
-    if (buttons) {
-      Array.from(buttons).forEach(button => {
-        this.renderer.listen(button, "click", () => {
-        });
-      });
-    }
-  }
+  constructor() {}
 
   dateChanged() {
     this.calendar.activeDate = this.selectedDate;

@@ -37,7 +37,7 @@ export class AppointmentFormComponent implements OnInit {
   sexCtrl: FormControl;
   weightCtrl: FormControl;
   sizeCtrl: FormControl;
-  patientFormGroup: FormGroup;
+  patientTabFormGroup: FormGroup;
 
   sexType = SexType;
   sexes: string[];
@@ -47,7 +47,7 @@ export class AppointmentFormComponent implements OnInit {
    */
 
   doctorChoiceCtrl: FormControl;
-  doctorFormGroup: FormGroup;
+  doctorTabFormGroup: FormGroup;
 
   doctor1: Doctor;
   doctor2: Doctor;
@@ -58,6 +58,10 @@ export class AppointmentFormComponent implements OnInit {
   /**
    * Appointement Tab
    */
+  dayCtrl: FormControl;
+  scheduleCtrl: FormControl;
+  appointementTabFormGroupe: FormGroup;
+
   schedules: Schedule[];
   private tmpDay: string;
   private tmpMonth: string;
@@ -75,7 +79,7 @@ export class AppointmentFormComponent implements OnInit {
     this.sexCtrl = formBuilder.control("", [Validators.required]);
     this.weightCtrl = formBuilder.control("", [Validators.required]);
     this.sizeCtrl = formBuilder.control("", [Validators.required]);
-    this.patientFormGroup = formBuilder.group({
+    this.patientTabFormGroup = formBuilder.group({
       name: this.nameCtrl,
       firstName: this.firstNameCtrl,
       phone: this.phoneCtrl,
@@ -87,12 +91,20 @@ export class AppointmentFormComponent implements OnInit {
     });
 
     this.doctorChoiceCtrl = formBuilder.control("", [Validators.required]);
-    this.doctorFormGroup = formBuilder.group({
+    this.doctorTabFormGroup = formBuilder.group({
       doctorChoice: this.doctorChoiceCtrl
+    });
+
+    this.dayCtrl = formBuilder.control("", [Validators.required]);
+    this.scheduleCtrl = formBuilder.control("", [Validators.required]);
+    this.appointementTabFormGroupe = formBuilder.group({
+      day: this.dayCtrl,
+      schedule: this.scheduleCtrl
     });
   }
 
   ngOnInit() {
+    this.dataSource = [];
 
     this.schedules = [];
     this.jsonReaderService.getJSON().subscribe(data => {
@@ -102,7 +114,6 @@ export class AppointmentFormComponent implements OnInit {
       this.dateSelected(moment());
     });
 
-    //  this.sexType = SexType;
     this.sexes = [];
     this.sexes = Object.keys(this.sexType);
 
