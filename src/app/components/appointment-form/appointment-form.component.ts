@@ -6,7 +6,7 @@ import {Gender} from "../../classes/Gender";
 import {Schedule} from "../../classes/Schedule";
 import * as moment from "moment";
 import {JSONReaderService} from "../../services/JSONReaderService";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import {DialogResetAppointmentDialogComponent} from "../dialog-reset-appointment-dialog/dialog-reset-appointment-dialog.component";
 import {DialogConfirmAppointmentDialogComponent} from "../dialog-confirm-appointment-dialog/dialog-confirm-appointment-dialog.component";
 
@@ -41,21 +41,16 @@ export class AppointmentFormComponent implements OnInit {
    * Doctor Tab
    */
 
-  doctorChoiceCtrl: FormControl;
   doctorTabFormGroup: FormGroup;
 
   selectedDoctor: Doctor;
-  doctor2: Doctor;
-  doctor3: Doctor;
   doctors: Doctor[];
 
 
   /**
-   * Appointement Tab
+   * Appointment Tab
    */
-  dayCtrl: FormControl;
-  scheduleCtrl: FormControl;
-  appointementTabFormGroupe: FormGroup;
+  appointmentTabFormGroupe: FormGroup;
 
   schedules: Schedule[];
   private tmpDay: string;
@@ -79,16 +74,13 @@ export class AppointmentFormComponent implements OnInit {
       sizeCtrl: formBuilder.control("", [Validators.required])
     });
 
-    this.doctorChoiceCtrl = formBuilder.control("", [Validators.required]);
     this.doctorTabFormGroup = formBuilder.group({
-      doctorChoice: this.doctorChoiceCtrl
+      doctorChoiceCtrl: formBuilder.control("", [Validators.required])
     });
 
-    this.dayCtrl = formBuilder.control("", [Validators.required]);
-    this.scheduleCtrl = formBuilder.control("", [Validators.required]);
-    this.appointementTabFormGroupe = formBuilder.group({
-      day: this.dayCtrl,
-      schedule: this.scheduleCtrl
+    this.appointmentTabFormGroupe = formBuilder.group({
+      dayCtrl: formBuilder.control("", [Validators.required]),
+      scheduleCtrl:  formBuilder.control("", [Validators.required])
     });
   }
 
@@ -101,19 +93,16 @@ export class AppointmentFormComponent implements OnInit {
         this.schedules.push(schedule);
       });
       this.dateSelected(moment());
-      this.dayCtrl.setValue(this.conversionToFrenchDate(moment()));
+      this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.conversionToFrenchDate(moment()));
     });
 
     this.sexes = [];
     this.sexes = Object.keys(this.sexType);
 
-    this.doctor2 = new Doctor("Dr Bascouzaraix", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence");
-    this.doctor3 = new Doctor("Dr Pissotte", "Ostéopathe", "6 rue du Luc, 33400 Talence");
-
     this.doctors = [];
     this.doctors.push(new Doctor("Dr Joubert", "Généraliste", "33 rue Emile Combes, 33400 Talence"));
-    this.doctors.push(this.doctor2);
-    this.doctors.push(this.doctor3);
+    this.doctors.push(new Doctor("Dr Bascouzaraix", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence"));
+    this.doctors.push(new Doctor("Dr Pissotte", "Ostéopathe", "6 rue du Luc, 33400 Talence"));
   }
 
   onDoctorSelectionChange(doctor: Doctor) {
@@ -156,8 +145,8 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   setDayAndScheduleCtrl(appointment: string) {
-    this.dayCtrl.setValue(this.chooseDate);
-    this.scheduleCtrl.setValue(appointment);
+    this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.chooseDate);
+    this.appointmentTabFormGroupe.get("scheduleCtrl").setValue(appointment);
   }
 
   openResetDialog(): void {
@@ -168,6 +157,10 @@ export class AppointmentFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.stepper.reset();
+        this.patientTabFormGroup.reset();
+        this.doctorTabFormGroup.reset();
+        this.selectedDoctor = null;
+        this.appointmentTabFormGroupe.reset();
       }
     });
   }

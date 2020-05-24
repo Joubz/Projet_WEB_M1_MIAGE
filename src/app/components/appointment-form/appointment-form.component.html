@@ -126,13 +126,13 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Docteur</mat-label>
-                <mat-select [formControl]="doctorChoiceCtrl" (selectionChange)="onDoctorSelectionChange($event.value)"
+                <mat-select formControlName="doctorChoiceCtrl" (selectionChange)="onDoctorSelectionChange($event.value)"
                             required>
                   <mat-option *ngFor="let doctor of doctors" [value]="doctor">
                     {{doctor.title()}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="doctorChoiceCtrl.hasError('required')">
+                <mat-error *ngIf="doctorTabFormGroup.get('doctorChoiceCtrl').hasError('required')">
                   Veuillez choisir votre docteur
                 </mat-error>
               </mat-form-field>
@@ -199,7 +199,7 @@
       <mat-card-actions>
         <div>
           <button mat-raised-button matStepperPrevious>Retour</button>
-          <button class="nextButton" mat-raised-button [disabled]="!appointementTabFormGroupe.valid" matStepperNext>
+          <button class="nextButton" mat-raised-button [disabled]="!appointmentTabFormGroupe.valid" matStepperNext>
             Suivant
           </button>
         </div>
@@ -262,14 +262,14 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Date du rendez-vous</mat-label>
-              <input matInput [disabled]="true" value="{{dayCtrl.value}}">
+              <input matInput [disabled]="true" value="{{appointmentTabFormGroupe.get('dayCtrl').value}}">
             </mat-form-field>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Horaire du rendez-vous</mat-label>
-              <input matInput [disabled]="true" value="{{scheduleCtrl.value}}">
+              <input matInput [disabled]="true" value="{{appointmentTabFormGroupe.get('scheduleCtrl').value}}">
             </mat-form-field>
           </mat-grid-tile>
 
@@ -287,3 +287,7 @@
 
   </mat-step>
 </mat-horizontal-stepper>
+
+<div flex layout="column" >
+  <div ng-view flex layout="column"></div>
+</div>
