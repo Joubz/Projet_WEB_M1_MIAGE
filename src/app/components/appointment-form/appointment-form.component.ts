@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, Inject, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Moment} from "moment";
 import {Doctor} from "../../classes/Doctor";
@@ -7,10 +7,47 @@ import {CalendarComponent} from "../calendar/calendar.component";
 import {Schedule} from "../../classes/Schedule";
 import * as moment from "moment";
 import {JSONReaderService} from "../../services/JSONReaderService";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 
 
 /**
- * Nathan Joubert
+ * Dialog for reset action
+ */
+@Component({
+  selector: "app-dialog-reset-appointement-dialog",
+  templateUrl: "dialog-reset-appointement-dialog.html",
+})
+export class DialogResetAppointementDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<DialogResetAppointementDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: boolean) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+/**
+ * Dialog for confirm action
+ */
+@Component({
+  selector: "app-dialog-confirm-appointement-dialog",
+  templateUrl: "dialog-confirm-appointement-dialog.html",
+})
+export class DialogConfirmAppointementDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<DialogConfirmAppointementDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: boolean) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+/**
+ * Component for the stepper
  */
 @Component({
   selector: "app-appointment-form",
@@ -20,7 +57,8 @@ import {JSONReaderService} from "../../services/JSONReaderService";
 export class AppointmentFormComponent implements OnInit {
   // @ts-ignore
   @ViewChild("myCalendar")
-  myCalendar: CalendarComponent;
+  // @ts-ignore
+  @ViewChild("stepper") stepper;
 
   displayedColumns: string[] = ["selection", "schedule"];
   dataSource: string[];
@@ -49,11 +87,15 @@ export class AppointmentFormComponent implements OnInit {
   doctorChoiceCtrl: FormControl;
   doctorTabFormGroup: FormGroup;
 
+  doctorName: string;
+  doctorSpeciality: string;
+  doctorAdress: string;
+
   doctor1: Doctor;
   doctor2: Doctor;
   doctor3: Doctor;
   doctors: Doctor[];
-  doctorAdress: string;
+
 
   /**
    * Appointement Tab
@@ -65,12 +107,13 @@ export class AppointmentFormComponent implements OnInit {
   schedules: Schedule[];
   private tmpDay: string;
   private tmpMonth: string;
-  private find: boolean;
+  private findCorrespondingDate: boolean;
   private chooseDate: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private jsonReaderService: JSONReaderService
+    private jsonReaderService: JSONReaderService,
+    public dialog: MatDialog
   ) {
     this.nameCtrl = formBuilder.control("", [Validators.required]);
     this.firstNameCtrl = formBuilder.control("", [Validators.required]);
@@ -131,6 +174,8 @@ export class AppointmentFormComponent implements OnInit {
 
   onDoctorSelectionChange(doctor: Doctor) {
     this.doctorAdress = doctor.adress;
+    this.doctorName = doctor.name;
+    this.doctorSpeciality = doctor.speciality;
   }
 
   conversionToFrenchDate(value: Moment) {
@@ -155,15 +200,15 @@ export class AppointmentFormComponent implements OnInit {
    * @param value is the selected date
    */
   dateSelected(value: Moment) {
-    this.find = false;
+    this.findCorrespondingDate = false;
     this.schedules.forEach(schedule => {
       if (this.conversionToFrenchDate(value) === schedule.date) {
         this.dataSource = schedule.appointements;
         this.chooseDate = schedule.date;
-        this.find = true;
+        this.findCorrespondingDate = true;
       }
     });
-    if (this.find === false) {
+    if (this.findCorrespondingDate === false) {
       this.dataSource = [];
     }
   }
@@ -171,5 +216,34 @@ export class AppointmentFormComponent implements OnInit {
   setDayAndScheduleCtrl(appointement: string) {
     this.dayCtrl.setValue(this.chooseDate);
     this.scheduleCtrl.setValue(appointement);
+  }
+
+  openResetDialog(): void {
+    const dialogRef = this.dialog.open(DialogResetAppointementDialogComponent, {
+      width: "300px",
+      data: false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.stepper.reset();
+      }
+    });
+  }
+
+  openConfirmDialog(): void {
+    const dialogRef = this.dialog.open(DialogConfirmAppointementDialogComponent, {
+      width: "300px",
+      data: false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.save();
+      }
+
+    });
+  }
+
+  save() {
+    console.log("save");
   }
 }

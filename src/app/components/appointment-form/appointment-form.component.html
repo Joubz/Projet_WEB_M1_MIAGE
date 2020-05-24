@@ -101,7 +101,7 @@
         <mat-card-actions>
           <div>
             <button mat-button [disabled]="true" matStepperPrevious>Retour</button>
-            <button class="nextButton" mat-button [disabled]="!patientTabFormGroup.valid" matStepperNext>Suivant
+            <button class="nextButton" mat-raised-button [disabled]="!patientTabFormGroup.valid" matStepperNext>Suivant
             </button>
           </div>
         </mat-card-actions>
@@ -144,8 +144,9 @@
 
         <mat-card-actions>
           <div>
-            <button mat-button matStepperPrevious>Retour</button>
-            <button class="nextButton" mat-button [disabled]="!doctorTabFormGroup.valid" matStepperNext>Suivant</button>
+            <button mat-raised-button matStepperPrevious>Retour</button>
+            <button class="nextButton" mat-raised-button [disabled]="!doctorTabFormGroup.valid" matStepperNext>Suivant
+            </button>
           </div>
         </mat-card-actions>
       </mat-card>
@@ -193,8 +194,9 @@
 
       <mat-card-actions>
         <div>
-          <button mat-button matStepperPrevious>Retour</button>
-          <button class="nextButton" mat-button [disabled]="!appointementTabFormGroupe.valid" matStepperNext>Suivant
+          <button mat-raised-button matStepperPrevious>Retour</button>
+          <button class="nextButton" mat-raised-button [disabled]="!appointementTabFormGroupe.valid" matStepperNext>
+            Suivant
           </button>
         </div>
       </mat-card-actions>
@@ -217,7 +219,6 @@
               <input matInput [disabled]="true" value="{{nameCtrl.value}}">
             </mat-form-field>
           </mat-grid-tile>
-
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
@@ -243,14 +244,14 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Docteur</mat-label>
-              <input matInput [disabled]="true" value="{{doctorChoiceCtrl.value}}">
+              <input matInput [disabled]="true" value="{{doctorName}}">
             </mat-form-field>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Spécialité docteur</mat-label>
-              <input matInput [disabled]="true" value="{{doctorChoiceCtrl.value}}">
+              <input matInput [disabled]="true" value="{{doctorSpeciality}}">
             </mat-form-field>
           </mat-grid-tile>
 
@@ -273,8 +274,9 @@
 
       <mat-card-actions>
         <div>
-          <button mat-button matStepperPrevious>Retour</button>
-          <button mat-button (click)="stepper.reset()">Réinitialiser</button>
+          <button mat-raised-button matStepperPrevious>Retour</button>
+          <button mat-raised-button (click)="openResetDialog()">Réinitialiser</button>
+          <button mat-raised-button (click)="openConfirmDialog()">Valider</button>
         </div>
       </mat-card-actions>
     </mat-card>

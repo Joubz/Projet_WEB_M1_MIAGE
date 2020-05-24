@@ -6,7 +6,7 @@ import {AppComponent} from "./app.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {
   MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
+  MAT_DATE_LOCALE, MatDialogModule,
   MatIconModule,
   MatInputModule, MatMenuModule,
   MatRadioModule,
@@ -15,7 +15,11 @@ import {
 } from "@angular/material";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSliderModule} from "@angular/material/slider";
-import {AppointmentFormComponent} from "./components/appointment-form/appointment-form.component";
+import {
+  AppointmentFormComponent,
+  DialogResetAppointementDialogComponent,
+  DialogConfirmAppointementDialogComponent
+} from "./components/appointment-form/appointment-form.component";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -25,7 +29,7 @@ import {MatNativeDateModule} from "@angular/material";
 import {MatSelectModule} from "@angular/material/select";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
-import { CalendarComponent } from "./components/calendar/calendar.component";
+import {CalendarComponent} from "./components/calendar/calendar.component";
 import {dateFrenchFormat} from "./components/calendar/dateFrenchFormat";
 import {JSONReaderService} from "./services/JSONReaderService";
 import {ThemingService} from "./services/theming.service";
@@ -37,8 +41,11 @@ import {ToolBarComponent} from "./components/tool-bar/tool-bar.component";
     AppComponent,
     ToolBarComponent,
     AppointmentFormComponent,
+    DialogResetAppointementDialogComponent,
+    DialogConfirmAppointementDialogComponent,
     CalendarComponent,
   ],
+  entryComponents: [DialogResetAppointementDialogComponent, DialogConfirmAppointementDialogComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -60,15 +67,16 @@ import {ToolBarComponent} from "./components/tool-bar/tool-bar.component";
     MatRadioModule,
     MatIconModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [
     HttpClientModule,
     JSONReaderService,
     ThemingService,
-    { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
-    { provide: MAT_DATE_FORMATS, useValue: dateFrenchFormat },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+    {provide: MAT_DATE_LOCALE, useValue: "fr-FR"},
+    {provide: MAT_DATE_FORMATS, useValue: dateFrenchFormat},
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
   ],
   bootstrap: [AppComponent]
 })
