@@ -58,12 +58,10 @@ export class AppointmentFormComponent implements OnInit {
   /**
    * Appointement Tab
    */
-  schedule1: Schedule;
-  schedule2: Schedule;
-  schedule3: Schedule;
   schedules: Schedule[];
   private tmpDay: string;
   private tmpMonth: string;
+  private find: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,7 +70,7 @@ export class AppointmentFormComponent implements OnInit {
     this.nameCtrl = formBuilder.control("", [Validators.required]);
     this.firstNameCtrl = formBuilder.control("", [Validators.required]);
     this.phoneCtrl = formBuilder.control("", [Validators.required]);
-    this.mailCtrl = formBuilder.control("", [Validators.required]);
+    this.mailCtrl = formBuilder.control("", [Validators.required, Validators.email]);
     this.birthDateCtrl = formBuilder.control("", [Validators.required]);
     this.sexCtrl = formBuilder.control("", [Validators.required]);
     this.weightCtrl = formBuilder.control("", [Validators.required]);
@@ -96,8 +94,12 @@ export class AppointmentFormComponent implements OnInit {
 
   ngOnInit() {
 
+    this.schedules = [];
     this.jsonReaderService.getJSON().subscribe(data => {
-      console.log(data);
+      data.forEach(schedule => {
+        this.schedules.push(schedule);
+      });
+      this.dateSelected(moment());
     });
 
     //  this.sexType = SexType;
@@ -112,16 +114,6 @@ export class AppointmentFormComponent implements OnInit {
     this.doctors.push(this.doctor1);
     this.doctors.push(this.doctor2);
     this.doctors.push(this.doctor3);
-
-    this.schedules = [];
-    this.schedule1 = new Schedule("18/05/2020", ["10h30-11h", "15h30-16h"]);
-    this.schedule2 = new Schedule("19/05/2020", ["11h30-12h", "14h30-15h", "15h-15h30"]);
-    this.schedule3 = new Schedule("20/05/2020", ["9h-9h30", "17h30-18h"]);
-    this.schedules.push(this.schedule1);
-    this.schedules.push(this.schedule2);
-    this.schedules.push(this.schedule3);
-
-    this.dateSelected(moment());
   }
 
   onDoctorSelectionChange(doctor: Doctor) {
@@ -150,10 +142,15 @@ export class AppointmentFormComponent implements OnInit {
    * @param value is the selected date
    */
   dateSelected(value: Moment) {
+    this.find = false;
     this.schedules.forEach(schedule => {
       if (this.conversionToFrenchDate(value) === schedule.date) {
         this.dataSource = schedule.appointements;
+        this.find = true;
       }
     });
+    if (this.find === false) {
+      this.dataSource = [];
+    }
   }
 }
