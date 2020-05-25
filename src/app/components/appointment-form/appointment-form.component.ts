@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit, ViewChild} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Moment} from "moment";
 import {Doctor} from "../../classes/Doctor";
 import {Gender} from "../../classes/Gender";
@@ -68,7 +68,7 @@ export class AppointmentFormComponent implements OnInit {
     this.patientTabFormGroup = formBuilder.group({
       nameCtrl : formBuilder.control("", [Validators.required, Validators.minLength(2)]),
       firstNameCtrl: formBuilder.control("", [Validators.required, Validators.minLength(2)]),
-      phoneCtrl: formBuilder.control("", [Validators.required]),
+      phoneCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^([0-9]\d*)?$/)]),
       mailCtrl: formBuilder.control("", [Validators.required, Validators.pattern("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")]),
       birthDateCtrl: formBuilder.control("", [Validators.required]),
       sexCtrl: formBuilder.control("", [Validators.required]),

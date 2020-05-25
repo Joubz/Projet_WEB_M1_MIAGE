@@ -45,6 +45,9 @@
                 <mat-error *ngIf="patientTabFormGroup.get('phoneCtrl').hasError('required')">
                   Veuillez indiquer un numéro de téléphone
                 </mat-error>
+                <mat-error *ngIf="patientTabFormGroup.get('phoneCtrl').hasError('pattern')">
+                  Veuillez indiquer un numéro de téléphone
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
