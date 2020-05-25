@@ -17,6 +17,9 @@
                 <mat-error *ngIf="patientTabFormGroup.get('nameCtrl').hasError('required')">
                   Veuillez indiquer un nom
                 </mat-error>
+                <mat-error *ngIf="patientTabFormGroup.get('nameCtrl').hasError('minLength')">
+                  Le nom est trop court
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
@@ -28,13 +31,16 @@
                 <mat-error *ngIf="patientTabFormGroup.get('firstNameCtrl').hasError('required')">
                   Veuillez indiquer un prénom
                 </mat-error>
+                <mat-error *ngIf="patientTabFormGroup.get('firstNameCtrl').hasError('minLength(2)')">
+                  Le prénom est trop court
+                </mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Téléphone</mat-label>
-                <input matInput placeholder="Ex : 0648214202" formControlName="phoneCtrl" required>
+                <input matInput maxlength="10" placeholder="Ex : 0648214202" formControlName="phoneCtrl" required>
                 <mat-icon matSuffix>phone</mat-icon>
                 <mat-error *ngIf="patientTabFormGroup.get('phoneCtrl').hasError('required')">
                   Veuillez indiquer un numéro de téléphone

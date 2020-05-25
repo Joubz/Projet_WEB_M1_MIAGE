@@ -1,5 +1,9 @@
 import {MatDateFormats} from "@angular/material";
 
+
+/**
+ * This is a date format in French for the calendar
+ */
 export const dateFrenchFormat: MatDateFormats = {
   parse: {
     dateInput: "DD/MM/YYYY",

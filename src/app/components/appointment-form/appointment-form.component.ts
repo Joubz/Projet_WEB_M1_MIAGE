@@ -66,14 +66,14 @@ export class AppointmentFormComponent implements OnInit {
      * Declaration of form group for patient tab
      */
     this.patientTabFormGroup = formBuilder.group({
-      nameCtrl : formBuilder.control("", [Validators.required]),
-      firstNameCtrl: formBuilder.control("", [Validators.required]),
+      nameCtrl : formBuilder.control("", [Validators.required, Validators.minLength(2)]),
+      firstNameCtrl: formBuilder.control("", [Validators.required, Validators.minLength(2)]),
       phoneCtrl: formBuilder.control("", [Validators.required]),
       mailCtrl: formBuilder.control("", [Validators.required, Validators.pattern("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")]),
       birthDateCtrl: formBuilder.control("", [Validators.required]),
       sexCtrl: formBuilder.control("", [Validators.required]),
-      weightCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^-?([0-9]\d*)?$/)]),
-      sizeCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^-?([0-9]\d*)?$/)])
+      weightCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^([0-9]\d*)?$/)]),
+      sizeCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^([0-9]\d*)?$/)])
     });
 
     /**
@@ -163,11 +163,18 @@ export class AppointmentFormComponent implements OnInit {
     }
   }
 
+  /**
+   * This fonction is called when a schedule is chose, it set the values in the form group
+   * @param appointment, the schedule of the appointement
+   */
   setDayAndScheduleCtrl(appointment: string) {
     this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.chooseDate);
     this.appointmentTabFormGroupe.get("scheduleCtrl").setValue(appointment);
   }
 
+  /**
+   * Open the dialog the the reset action
+   */
   openResetDialog(): void {
     const dialogRef = this.dialog.open(DialogResetAppointmentDialogComponent, {
       width: "300px",
@@ -184,6 +191,9 @@ export class AppointmentFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Open the dialog the the reset action
+   */
   openConfirmDialog(): void {
     const dialogRef = this.dialog.open(DialogConfirmAppointmentDialogComponent, {
       width: "300px",

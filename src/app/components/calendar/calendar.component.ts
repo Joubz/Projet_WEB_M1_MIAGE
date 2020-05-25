@@ -22,6 +22,9 @@ export class CalendarComponent {
 
   constructor() {}
 
+  /**
+   * Change the active date on the calendar when a new date is chosen
+   */
   dateChanged() {
     this.calendar.activeDate = this.selectedDate;
     this.dateSelected.emit(this.selectedDate);
