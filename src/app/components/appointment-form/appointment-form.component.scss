@@ -7,9 +7,11 @@
   border: solid #3F51B5;
 }
 
-.dark-theme .mat-card {
-  border: solid #455a64;
+#cardActionTabPatient {
+  display: grid;
 }
+
+
 
 .mat-card-content {
   display: grid;
@@ -21,7 +23,7 @@
 }
 
 .nextButton {
-  float: right
+  float: right;
 }
 
 .mat-input-element:disabled {

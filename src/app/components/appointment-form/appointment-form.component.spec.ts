@@ -1,8 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
-import {AppointmentFormComponent} from './appointment-form.component';
+import {AppointmentFormComponent} from "./appointment-form.component";
 
-describe('AppointmentFormComponent', () => {
+describe("AppointmentFormComponent", () => {
   let component: AppointmentFormComponent;
   let fixture: ComponentFixture<AppointmentFormComponent>;
 
@@ -19,7 +19,7 @@ describe('AppointmentFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

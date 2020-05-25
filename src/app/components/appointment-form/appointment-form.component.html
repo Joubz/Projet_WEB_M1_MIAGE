@@ -13,7 +13,7 @@
               <mat-form-field appearance="fill">
                 <mat-label>Nom</mat-label>
                 <input matInput placeholder="Nom" formControlName="nameCtrl" required>
-                 <mat-icon matSuffix>perm_identity</mat-icon>
+                <mat-icon matSuffix>perm_identity</mat-icon>
                 <mat-error *ngIf="patientTabFormGroup.get('nameCtrl').hasError('required')">
                   Veuillez indiquer un nom
                 </mat-error>
@@ -34,7 +34,7 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Téléphone</mat-label>
-                <input matInput placeholder="Téléphone" formControlName="phoneCtrl" required>
+                <input matInput placeholder="Ex : 0648214202" formControlName="phoneCtrl" required>
                 <mat-icon matSuffix>phone</mat-icon>
                 <mat-error *ngIf="patientTabFormGroup.get('phoneCtrl').hasError('required')">
                   Veuillez indiquer un numéro de téléphone
@@ -45,10 +45,13 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput placeholder="Email" formControlName="mailCtrl" required>
+                <input matInput placeholder="Ex : pat@example.com" formControlName="mailCtrl" required>
                 <mat-icon matSuffix>mail</mat-icon>
                 <mat-error *ngIf="patientTabFormGroup.get('mailCtrl').hasError('required')">
                   Veuillez indiquer un mail
+                </mat-error>
+                <mat-error *ngIf="patientTabFormGroup.get('mailCtrl').hasError('pattern')">
+                  Veuillez indiquer un mail valide
                 </mat-error>
               </mat-form-field>
             </mat-grid-tile>
@@ -81,20 +84,31 @@
 
             <mat-grid-tile>
               <mat-form-field appearance="fill">
-                <mat-label>Poids (en kilogrammes)</mat-label>
-                <input matInput placeholder="Poids (en kilogrammes)" formControlName="weightCtrl" required>
+                <mat-label>Poids</mat-label>
+                <span matSuffix>kg &nbsp;</span>
+                <input matInput maxlength="3" placeholder="Poids (en kilogrammes)"
+                       formControlName="weightCtrl" required>
+                <mat-hint align="start"><strong>Le poids doit être renseignée en kilogrammes</strong></mat-hint>
                 <mat-error *ngIf="patientTabFormGroup.get('weightCtrl').hasError('required')">
                   Veuillez indiquer votre poids
+                </mat-error>
+                <mat-error *ngIf="patientTabFormGroup.get('weightCtrl').hasError('pattern')">
+                  Votre poids doit être en kilogramme
                 </mat-error>
               </mat-form-field>
             </mat-grid-tile>
 
             <mat-grid-tile>
               <mat-form-field appearance="fill">
-                <mat-label>Taille (en centimètres)</mat-label>
-                <input matInput placeholder="Taille (en centimètres)" formControlName="sizeCtrl" required>
-                <mat-error *ngIf="patientTabFormGroup.get('weightCtrl').hasError('required')">
+                <mat-label>Taille</mat-label>
+                <span matSuffix>cm &nbsp;</span>
+                <input matInput maxlength="3" placeholder="Taille (en centimètres)" formControlName="sizeCtrl" required>
+                <mat-hint align="start"><strong>La taille doit être renseignée en centimètres</strong></mat-hint>
+                <mat-error *ngIf="patientTabFormGroup.get('sizeCtrl').hasError('required')">
                   Veuillez indiquer votre taille
+                </mat-error>
+                <mat-error *ngIf="patientTabFormGroup.get('sizeCtrl').hasError('pattern')">
+                  Votre taille doit être en centimètres
                 </mat-error>
               </mat-form-field>
             </mat-grid-tile>
@@ -102,10 +116,10 @@
           </mat-grid-list>
         </mat-card-content>
 
-        <mat-card-actions>
+        <mat-card-actions id="cardActionTabPatient">
           <div>
-            <button mat-button [disabled]="true" matStepperPrevious>Retour</button>
-            <button class="nextButton" mat-raised-button [disabled]="!patientTabFormGroup.valid" matStepperNext>Suivant
+            <button class="nextButton" mat-raised-button color="primary" [disabled]="!patientTabFormGroup.valid"
+                    matStepperNext>Suivant
             </button>
           </div>
         </mat-card-actions>
@@ -140,7 +154,7 @@
 
             <mat-grid-tile>
               <mat-label>Adresse :</mat-label>
-              <mat-label> {{selectedDoctor?.address }} </mat-label>
+              <mat-label *ngIf="selectedDoctor != null"> {{ selectedDoctor?.address }} </mat-label>
             </mat-grid-tile>
 
           </mat-grid-list>
@@ -149,7 +163,8 @@
         <mat-card-actions>
           <div>
             <button mat-raised-button matStepperPrevious>Retour</button>
-            <button class="nextButton" mat-raised-button [disabled]="!doctorTabFormGroup.valid" matStepperNext>Suivant
+            <button class="nextButton" mat-raised-button color="primary" [disabled]="!doctorTabFormGroup.valid"
+                    matStepperNext>Suivant
             </button>
           </div>
         </mat-card-actions>
@@ -199,7 +214,8 @@
       <mat-card-actions>
         <div>
           <button mat-raised-button matStepperPrevious>Retour</button>
-          <button class="nextButton" mat-raised-button [disabled]="!appointmentTabFormGroupe.valid" matStepperNext>
+          <button class="nextButton" mat-raised-button color="primary" [disabled]="!appointmentTabFormGroupe.valid"
+                  matStepperNext>
             Suivant
           </button>
         </div>
@@ -279,8 +295,8 @@
       <mat-card-actions>
         <div>
           <button mat-raised-button matStepperPrevious>Retour</button>
-          <button mat-raised-button (click)="openResetDialog()">Réinitialiser</button>
-          <button mat-raised-button (click)="openConfirmDialog()">Valider</button>
+          <button mat-raised-button color="warn" (click)="openResetDialog()">Réinitialiser</button>
+          <button mat-raised-button color="primary" (click)="openConfirmDialog()">Valider</button>
         </div>
       </mat-card-actions>
     </mat-card>

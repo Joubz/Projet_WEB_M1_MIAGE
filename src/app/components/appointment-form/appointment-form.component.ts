@@ -34,7 +34,6 @@ export class AppointmentFormComponent implements OnInit {
 
   patientTabFormGroup: FormGroup;
 
-  sexType = Gender;
   sexes: string[];
 
   /**
@@ -63,27 +62,39 @@ export class AppointmentFormComponent implements OnInit {
     private jsonReaderService: JSONReaderService,
     public dialog: MatDialog
   ) {
+    /**
+     * Declaration of form group for patient tab
+     */
     this.patientTabFormGroup = formBuilder.group({
       nameCtrl : formBuilder.control("", [Validators.required]),
       firstNameCtrl: formBuilder.control("", [Validators.required]),
       phoneCtrl: formBuilder.control("", [Validators.required]),
-      mailCtrl: formBuilder.control("", [Validators.required]),
+      mailCtrl: formBuilder.control("", [Validators.required, Validators.pattern("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")]),
       birthDateCtrl: formBuilder.control("", [Validators.required]),
       sexCtrl: formBuilder.control("", [Validators.required]),
-      weightCtrl: formBuilder.control("", [Validators.required]),
-      sizeCtrl: formBuilder.control("", [Validators.required])
+      weightCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^-?([0-9]\d*)?$/)]),
+      sizeCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^-?([0-9]\d*)?$/)])
     });
 
+    /**
+     * Declaration of form group for patient tab
+     */
     this.doctorTabFormGroup = formBuilder.group({
       doctorChoiceCtrl: formBuilder.control("", [Validators.required])
     });
 
+    /**
+     * Declaration of form group for patient tab
+     */
     this.appointmentTabFormGroupe = formBuilder.group({
       dayCtrl: formBuilder.control("", [Validators.required]),
       scheduleCtrl:  formBuilder.control("", [Validators.required])
     });
   }
 
+  /**
+   * Init the service and other variables
+   */
   ngOnInit() {
     this.dataSource = [""];
 
@@ -97,7 +108,7 @@ export class AppointmentFormComponent implements OnInit {
     });
 
     this.sexes = [];
-    this.sexes = Object.keys(this.sexType);
+    this.sexes.push("Femme", "Homme");
 
     this.doctors = [];
     this.doctors.push(new Doctor("Dr Joubert", "Généraliste", "33 rue Emile Combes, 33400 Talence"));
@@ -105,10 +116,18 @@ export class AppointmentFormComponent implements OnInit {
     this.doctors.push(new Doctor("Dr Pissotte", "Ostéopathe", "6 rue du Luc, 33400 Talence"));
   }
 
+  /**
+   * This fonction is called when a doctor is choose by the user, allows variables to be stored in an easily accessible object
+   * @param doctor, a doctor object
+   */
   onDoctorSelectionChange(doctor: Doctor) {
     this.selectedDoctor = doctor;
   }
 
+  /**
+   * This function converts a date in English format to a date in French format
+   * @param value, a moment
+   */
   conversionToFrenchDate(value: Moment) {
     this.tmpDay = "";
     this.tmpMonth = "";
@@ -127,8 +146,8 @@ export class AppointmentFormComponent implements OnInit {
   }
 
   /**
-   * Help to get the data of a day
-   * @param value is the selected date
+   * This function is called when a date is chosen in the calendar, it allows to initialize the table containing the schedules available at the chosen date.
+   * @param value is the selected date from the calendar
    */
   dateSelected(value: Moment) {
     this.findCorrespondingDate = false;
