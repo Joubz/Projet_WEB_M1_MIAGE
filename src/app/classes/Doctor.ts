@@ -17,7 +17,7 @@ export class Doctor {
   appointmentLast: number;
 
   /**
-   * Constructors
+   * Constructors of a doctor
    *
    * @param lastName of the doctor
    * @param firstName of the doctor

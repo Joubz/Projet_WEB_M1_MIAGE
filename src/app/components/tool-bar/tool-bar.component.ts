@@ -18,6 +18,11 @@ export class ToolBarComponent implements OnInit {
     this.themes = this.theming.themes;
   }
 
+  /**
+   * When the theme is change
+   *
+   * @param theme the color theme
+   */
   changeTheme(theme: string) {
     this.theming.theme.next(theme);
   }

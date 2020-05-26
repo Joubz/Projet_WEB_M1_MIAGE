@@ -15,7 +15,7 @@ export class Appointment {
   time: string;
 
   /**
-   * Constructor
+   * Constructor of a appointment
    *
    * @param doctor for the appointment
    * @param patient for the appointment

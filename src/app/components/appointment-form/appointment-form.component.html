@@ -12,12 +12,12 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Nom</mat-label>
-                <input matInput placeholder="Nom" formControlName="nameCtrl" required>
+                <input matInput placeholder="Nom" formControlName="lastNameCtrl" required>
                 <mat-icon matSuffix>perm_identity</mat-icon>
-                <mat-error *ngIf="patientTabFormGroup.get('nameCtrl').hasError('required')">
+                <mat-error *ngIf="patientTabFormGroup.get('lastNameCtrl').hasError('required')">
                   Veuillez indiquer un nom
                 </mat-error>
-                <mat-error *ngIf="patientTabFormGroup.get('nameCtrl').hasError('minLength')">
+                <mat-error *ngIf="patientTabFormGroup.get('lastNameCtrl').hasError('minLength')">
                   Le nom est trop court
                 </mat-error>
               </mat-form-field>
@@ -80,12 +80,12 @@
             <mat-grid-tile>
               <mat-form-field appearance="fill">
                 <mat-label>Sexe</mat-label>
-                <mat-select formControlName="sexCtrl" required>
+                <mat-select formControlName="genderCtrl" required>
                   <mat-option *ngFor="let sex of sexes" [value]="sex">
                     {{sex.toString()}}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="patientTabFormGroup.get('sexCtrl').hasError('required')">
+                <mat-error *ngIf="patientTabFormGroup.get('genderCtrl').hasError('required')">
                   Veuillez indiquer votre sexe
                 </mat-error>
               </mat-form-field>
@@ -245,7 +245,7 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill">
               <mat-label>Nom</mat-label>
-              <input matInput [disabled]="true" value="{{patientTabFormGroup.get('nameCtrl').value}}">
+              <input matInput [disabled]="true" value="{{patientTabFormGroup.get('lastNameCtrl').value}}">
             </mat-form-field>
           </mat-grid-tile>
 

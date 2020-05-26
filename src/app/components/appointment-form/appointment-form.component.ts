@@ -9,6 +9,8 @@ import {JSONReaderService} from "../../services/JSONReaderService";
 import {MatDialog} from "@angular/material";
 import {DialogResetAppointmentDialogComponent} from "../dialog-reset-appointment-dialog/dialog-reset-appointment-dialog.component";
 import {DialogConfirmAppointmentDialogComponent} from "../dialog-confirm-appointment-dialog/dialog-confirm-appointment-dialog.component";
+import {Patient} from "../../classes/Patient";
+import {Appointment} from "../../classes/Appointment";
 
 /**
  * Component for the stepper form
@@ -56,6 +58,8 @@ export class AppointmentFormComponent implements OnInit {
   private tmpMonth: string;
   private findCorrespondingDate: boolean;
   private chooseDate: string;
+  private patient: Patient;
+  private appointment: Appointment;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,12 +70,12 @@ export class AppointmentFormComponent implements OnInit {
      * Declaration of form group for patient tab
      */
     this.patientTabFormGroup = formBuilder.group({
-      nameCtrl : formBuilder.control("", [Validators.required, Validators.minLength(2)]),
+      lastNameCtrl: formBuilder.control("", [Validators.required, Validators.minLength(2)]),
       firstNameCtrl: formBuilder.control("", [Validators.required, Validators.minLength(2)]),
       phoneCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^([0-9]\d*)?$/)]),
       mailCtrl: formBuilder.control("", [Validators.required, Validators.pattern("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")]),
       birthDateCtrl: formBuilder.control("", [Validators.required]),
-      sexCtrl: formBuilder.control("", [Validators.required]),
+      genderCtrl: formBuilder.control("", [Validators.required]),
       weightCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^([0-9]\d*)?$/)]),
       sizeCtrl: formBuilder.control("", [Validators.required, Validators.pattern(/^([0-9]\d*)?$/)])
     });
@@ -88,7 +92,7 @@ export class AppointmentFormComponent implements OnInit {
      */
     this.appointmentTabFormGroupe = formBuilder.group({
       dayCtrl: formBuilder.control("", [Validators.required]),
-      scheduleCtrl:  formBuilder.control("", [Validators.required])
+      scheduleCtrl: formBuilder.control("", [Validators.required])
     });
   }
 
@@ -210,7 +214,30 @@ export class AppointmentFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Convert the string into a gender enum type
+   * @param gender the string of the select
+   */
+  genderConversion(gender: string) {
+    if (gender === "Femme") {
+      return Gender.F;
+    } else if (gender === "Homme") {
+      return Gender.M;
+    } else {
+      return Gender.M;
+    }
+  }
+
+  /**
+   * Save the data from the tab, and put them into object for the transfer to the server part of the application
+   */
   save() {
-    console.log("save");
+    this.patient = new Patient(this.patientTabFormGroup.get("lastNameCtrl").value, this.patientTabFormGroup.get("firstNameCtrl").value,
+      this.patientTabFormGroup.get("phoneCtrl").value, this.patientTabFormGroup.get("mailCtrl").value,
+      this.conversionToFrenchDate(this.patientTabFormGroup.get("birthDateCtrl").value), this.genderConversion(this.patientTabFormGroup.get("genderCtrl").value),
+      parseInt(this.patientTabFormGroup.get("weightCtrl").value, 10), parseInt(this.patientTabFormGroup.get("sizeCtrl").value, 10));
+
+    this.appointment = new Appointment(this.selectedDoctor, this.patient, this.appointmentTabFormGroupe.get("dayCtrl").value, this.appointmentTabFormGroupe.get("scheduleCtrl").value);
+
   }
 }

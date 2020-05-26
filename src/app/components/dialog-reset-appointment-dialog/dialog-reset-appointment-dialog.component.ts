@@ -15,7 +15,10 @@ export class DialogResetAppointmentDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: boolean) {
   }
 
-  onNoClick(): void {
+  /**
+   * When the cancel button in click
+   */
+  onCancelClick(): void {
     this.dialogRef.close();
   }
 
