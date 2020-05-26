@@ -47,7 +47,7 @@ export class AppointmentFormComponent implements OnInit {
 
 
   /**
-   * Appointment Tab
+   * Appointment.ts Tab
    */
   appointmentTabFormGroupe: FormGroup;
 
@@ -111,9 +111,12 @@ export class AppointmentFormComponent implements OnInit {
     this.sexes.push("Femme", "Homme");
 
     this.doctors = [];
-    this.doctors.push(new Doctor("Dr Joubert", "Généraliste", "33 rue Emile Combes, 33400 Talence"));
-    this.doctors.push(new Doctor("Dr Bascouzaraix", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence"));
-    this.doctors.push(new Doctor("Dr Pissotte", "Ostéopathe", "6 rue du Luc, 33400 Talence"));
+    this.doctors.push(new Doctor("Joubert", "Nathan", "Généraliste", "33 rue Emile Combes, 33400 Talence", 8,
+      12, 14, 17, 30));
+    this.doctors.push(new Doctor("Bascouzaraix", "Julien", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence", 8,
+      12, 14, 17, 30));
+    this.doctors.push(new Doctor("Pissotte", "Alexandre", "Ostéopathe", "6 rue du Luc, 33400 Talence", 8,
+      12, 14, 17, 30));
   }
 
   /**
