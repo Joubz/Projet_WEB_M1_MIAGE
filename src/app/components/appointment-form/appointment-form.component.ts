@@ -45,7 +45,7 @@ export class AppointmentFormComponent implements OnInit {
   doctorTabFormGroup: FormGroup;
 
   selectedDoctor: Doctor;
-  doctors: Doctor[];
+  doctors: Doctor[] = [];
 
 
   /**
@@ -101,26 +101,32 @@ export class AppointmentFormComponent implements OnInit {
    */
   ngOnInit() {
     this.dataSource = [""];
-
+   // this.doctors = [];
     this.schedules = [];
-    this.jsonReaderService.getJSON().subscribe(data => {
-      data.forEach(schedule => {
-        this.schedules.push(schedule);
-      });
+
+    this.jsonReaderService.getJSONDoctors().subscribe( doctorData => {
+      this.doctors = doctorData.doctors;
+    }, error => console.log(error));
+
+
+    this.jsonReaderService.getJSONSchedules().subscribe(scheduleData => {
+      this.schedules = scheduleData;
       this.dateSelected(moment());
       this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.conversionToFrenchDate(moment()));
-    });
+    }, error => console.log(error));
 
     this.sexes = [];
     this.sexes.push("Femme", "Homme");
 
-    this.doctors = [];
-    this.doctors.push(new Doctor("Joubert", "Nathan", "Généraliste", "33 rue Emile Combes, 33400 Talence", 8,
+   /*
+   this.doctors.push(new Doctor("Joubert", "Nathan", "Généraliste", "33 rue Emile Combes, 33400 Talence", 8,
       12, 14, 17, 30));
     this.doctors.push(new Doctor("Bascouzaraix", "Julien", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence", 8,
       12, 14, 17, 30));
     this.doctors.push(new Doctor("Pissotte", "Alexandre", "Ostéopathe", "6 rue du Luc, 33400 Talence", 8,
       12, 14, 17, 30));
+      */
+
   }
 
   /**
@@ -172,7 +178,7 @@ export class AppointmentFormComponent implements OnInit {
 
   /**
    * This fonction is called when a schedule is chose, it set the values in the form group
-   * @param appointment, the schedule of the appointement
+   * @param appointment, the schedule of the appointment
    */
   setDayAndScheduleCtrl(appointment: string) {
     this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.chooseDate);
@@ -238,6 +244,9 @@ export class AppointmentFormComponent implements OnInit {
       parseInt(this.patientTabFormGroup.get("weightCtrl").value, 10), parseInt(this.patientTabFormGroup.get("sizeCtrl").value, 10));
 
     this.appointment = new Appointment(this.selectedDoctor, this.patient, this.appointmentTabFormGroupe.get("dayCtrl").value, this.appointmentTabFormGroupe.get("scheduleCtrl").value);
+
+
+    console.log(JSON.stringify(this.appointment));
 
   }
 }

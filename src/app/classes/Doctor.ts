@@ -6,6 +6,7 @@ export class Doctor {
   /**
    * Attributes
    */
+  id: number;
   lastName: string;
   firstName: string;
   speciality: string;
@@ -29,8 +30,9 @@ export class Doctor {
    * @param afternoonEndHour of the doctor
    * @param appointmentLast of the doctor
    */
-  constructor(lastName: string, firstName: string, speciality: string, address: string, morningStartHour: number,
+  constructor(id: number, lastName: string, firstName: string, speciality: string, address: string, morningStartHour: number,
               morningEndHour: number, afternoonStartHour: number, afternoonEndHour: number, appointmentLast: number) {
+    this.id = id;
     this.lastName = lastName;
     this.firstName = firstName;
     this.speciality = speciality;
@@ -40,12 +42,5 @@ export class Doctor {
     this.afternoonStartHour = afternoonStartHour;
     this.afternoonEndHour = afternoonEndHour;
     this.appointmentLast = appointmentLast;
-  }
-
-  /**
-   * A string fonction for the title of the doctor
-   */
-  title() {
-    return "Dr " + this.lastName + " - " + this.speciality;
   }
 }

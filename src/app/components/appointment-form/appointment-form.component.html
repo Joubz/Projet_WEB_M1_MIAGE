@@ -152,7 +152,7 @@
                 <mat-select formControlName="doctorChoiceCtrl" (selectionChange)="onDoctorSelectionChange($event.value)"
                             required>
                   <mat-option *ngFor="let doctor of doctors" [value]="doctor">
-                    {{doctor.title()}}
+                    {{"Dr " + doctor.lastName + " - " + doctor.speciality}}
                   </mat-option>
                 </mat-select>
                 <mat-error *ngIf="doctorTabFormGroup.get('doctorChoiceCtrl').hasError('required')">
