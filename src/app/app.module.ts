@@ -28,7 +28,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from "@angular/material-moment-adapter";
 import {CalendarComponent} from "./components/calendar/calendar.component";
 import {dateFrenchFormat} from "./components/calendar/dateFrenchFormat";
-import {JSONReaderService} from "./services/JSONReaderService";
+import {AppointmentService} from "./services/AppointmentService";
 import {ThemingService} from "./services/theming.service";
 import {HttpClientModule} from "@angular/common/http";
 import {ToolBarComponent} from "./components/tool-bar/tool-bar.component";
@@ -71,7 +71,7 @@ import { DialogConfirmAppointmentDialogComponent } from "./components/dialog-con
   ],
   providers: [
     HttpClientModule,
-    JSONReaderService,
+    AppointmentService,
     ThemingService,
     {provide: MAT_DATE_LOCALE, useValue: "fr-FR"},
     {provide: MAT_DATE_FORMATS, useValue: dateFrenchFormat},

@@ -81,8 +81,8 @@
               <mat-form-field appearance="fill">
                 <mat-label>Sexe</mat-label>
                 <mat-select formControlName="genderCtrl" required>
-                  <mat-option *ngFor="let sex of sexes" [value]="sex">
-                    {{sex.toString()}}
+                  <mat-option *ngFor="let gender of genderSelect" [value]="gender">
+                    {{gender.toString()}}
                   </mat-option>
                 </mat-select>
                 <mat-error *ngIf="patientTabFormGroup.get('genderCtrl').hasError('required')">
