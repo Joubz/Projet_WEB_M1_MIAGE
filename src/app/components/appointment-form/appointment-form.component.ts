@@ -101,14 +101,18 @@ export class AppointmentFormComponent implements OnInit {
    */
   ngOnInit() {
     this.dataSource = [""];
-   // this.doctors = [];
     this.schedules = [];
 
-    this.jsonReaderService.getJSONDoctors().subscribe( doctorData => {
+    /**
+     * Call to the JSONReader service, in order to get the doctor array
+     */
+    this.jsonReaderService.getJSONDoctors().subscribe(doctorData => {
       this.doctors = doctorData.doctors;
     }, error => console.log(error));
 
-
+    /**
+     * Call to the JSONReader service, in order to get the schedule array
+     */
     this.jsonReaderService.getJSONSchedules().subscribe(scheduleData => {
       this.schedules = scheduleData;
       this.dateSelected(moment());
@@ -118,14 +122,14 @@ export class AppointmentFormComponent implements OnInit {
     this.sexes = [];
     this.sexes.push("Femme", "Homme");
 
-   /*
-   this.doctors.push(new Doctor("Joubert", "Nathan", "Généraliste", "33 rue Emile Combes, 33400 Talence", 8,
-      12, 14, 17, 30));
-    this.doctors.push(new Doctor("Bascouzaraix", "Julien", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence", 8,
-      12, 14, 17, 30));
-    this.doctors.push(new Doctor("Pissotte", "Alexandre", "Ostéopathe", "6 rue du Luc, 33400 Talence", 8,
-      12, 14, 17, 30));
-      */
+    /*
+    this.doctors.push(new Doctor("Joubert", "Nathan", "Généraliste", "33 rue Emile Combes, 33400 Talence", 8,
+       12, 14, 17, 30));
+     this.doctors.push(new Doctor("Bascouzaraix", "Julien", "Dentiste", "2 Avenue Pierre Louis, 33400 Talence", 8,
+       12, 14, 17, 30));
+     this.doctors.push(new Doctor("Pissotte", "Alexandre", "Ostéopathe", "6 rue du Luc, 33400 Talence", 8,
+       12, 14, 17, 30));
+       */
 
   }
 

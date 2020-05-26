@@ -11,10 +11,16 @@ export class JSONReaderService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * Method to get the JSON with the schedules
+   */
   public getJSONSchedules(): Observable<Schedule[]> {
     return this.http.get<Schedule[]>("./assets/mydata.json");
   }
 
+  /**
+   * Method to get the JSON with the doctors
+   */
   public getJSONDoctors(): Observable<IDoctors> {
     return this.http.get<IDoctors>("http://localhost:8080/BordeauxMedicServer_war_exploded/Doctors");
   }
