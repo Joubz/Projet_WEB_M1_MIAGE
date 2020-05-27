@@ -12,6 +12,8 @@ import {DialogConfirmAppointmentDialogComponent} from "../dialog-confirm-appoint
 import {Patient} from "../../classes/Patient";
 import {Appointment} from "../../classes/Appointment";
 
+const scheduleSplitter = "T";
+
 /**
  * Component for the stepper form
  */
@@ -61,6 +63,7 @@ export class AppointmentFormComponent implements OnInit {
   private patient: Patient;
   private appointment: Appointment;
   private appointments: Appointment[];
+
   private currentDate: string;
   private schedulesBeforeSet: string[];
 
@@ -142,20 +145,20 @@ export class AppointmentFormComponent implements OnInit {
 
       scheduleData.forEach(schedule => {
         if (this.currentDate === "") {
-          this.currentDate = schedule.split("T")[0];
-          this.schedulesBeforeSet.push(schedule.split("T")[1]);
-        } else if (this.currentDate === schedule.split("T")[0]) {
-          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          this.currentDate = schedule.split(scheduleSplitter)[0];
+          this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
+        } else if (this.currentDate === schedule.split(scheduleSplitter)[0]) {
+          this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
         } else {
           if ( parseInt(this.currentDate.split("-")[2], 10) >=  moment().date()) {
             this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
-            this.currentDate = schedule.split("T")[0];
+            this.currentDate = schedule.split(scheduleSplitter)[0];
             this.schedulesBeforeSet = [];
-            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+            this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
           } else {
-            this.currentDate = schedule.split("T")[0];
+            this.currentDate = schedule.split(scheduleSplitter)[0];
             this.schedulesBeforeSet = [];
-            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+            this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
           }
         }
       });
@@ -186,20 +189,20 @@ export class AppointmentFormComponent implements OnInit {
 
       scheduleData.forEach(schedule => {
         if (this.currentDate === "") {
-          this.currentDate = schedule.split("T")[0];
-          this.schedulesBeforeSet.push(schedule.split("T")[1]);
-        } else if (this.currentDate === schedule.split("T")[0]) {
-          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          this.currentDate = schedule.split(scheduleSplitter)[0];
+          this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
+        } else if (this.currentDate === schedule.split(scheduleSplitter)[0]) {
+          this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
         } else {
           if ( parseInt(this.currentDate.split("-")[2], 10) >=  moment().date()) {
             this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
-            this.currentDate = schedule.split("T")[0];
+            this.currentDate = schedule.split(scheduleSplitter)[0];
             this.schedulesBeforeSet = [];
-            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+            this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
           } else {
-            this.currentDate = schedule.split("T")[0];
+            this.currentDate = schedule.split(scheduleSplitter)[0];
             this.schedulesBeforeSet = [];
-            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+            this.schedulesBeforeSet.push(schedule.split(scheduleSplitter)[1]);
           }
         }
       });
@@ -339,14 +342,9 @@ export class AppointmentFormComponent implements OnInit {
 
     this.appointment = new Appointment(this.selectedDoctor, this.patient, this.appointmentTabFormGroupe.get("dayCtrl").value, this.appointmentTabFormGroupe.get("scheduleCtrl").value);
 
-    console.log(JSON.stringify(this.appointment));
-
     this.appointmentService.postAppointment(this.appointment).subscribe(appointment => this.appointments.push(appointment));
 
     this.resetStepper();
   }
 }
 
-// année-mois-jour
-
-// tt:mm
