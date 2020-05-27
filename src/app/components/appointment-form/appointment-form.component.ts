@@ -175,9 +175,6 @@ export class AppointmentFormComponent implements OnInit {
    * Service to get the schedules
    */
   loadSchedules(value: Moment) {
-
-    console.log("it get here");
-
     this.schedules = [];
 
     /**
