@@ -1,5 +1,5 @@
-import {Doctor} from "./Doctor";
 import {Patient} from "./Patient";
+import {Doctor} from './Doctor';
 
 /**
  * This class represents a appointment and all his information
@@ -9,7 +9,7 @@ export class Appointment {
   /**
    * Attributes
    */
-  doctorId: number;
+  doctor: Doctor;
   patient: Patient;
   date: string;
   time: string;
@@ -22,8 +22,8 @@ export class Appointment {
    * @param date appointment date
    * @param time appointment schedule
    */
-  constructor(doctorId: number, patient: Patient, date: string, time: string) {
-    this.doctorId = doctorId;
+  constructor(doctor: Doctor, patient: Patient, date: string, time: string) {
+    this.doctor = doctor;
     this.patient = patient;
     this.date = date;
     this.time = time;

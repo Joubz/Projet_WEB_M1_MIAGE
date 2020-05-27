@@ -172,7 +172,7 @@
         <mat-card-actions>
           <div>
             <button mat-raised-button matStepperPrevious>Retour</button>
-            <button class="nextButton" mat-raised-button color="primary" [disabled]="!doctorTabFormGroup.valid"
+            <button class="nextButton" mat-raised-button color="primary" [disabled]="!doctorTabFormGroup.valid" (click)="loadSchedulesFirstTime()"
                     matStepperNext>Suivant
             </button>
           </div>
@@ -190,10 +190,10 @@
     <mat-card>
       <mat-card-content>
 
-        <mat-grid-list cols="2" rowHeight="400px">
+        <mat-grid-list cols="2">
 
           <mat-grid-tile>
-            <app-calendar #myCalendar (dateSelected)="dateSelected($event)">
+            <app-calendar #myCalendar (dateSelected)="dateSelected($event)" >
             </app-calendar>
           </mat-grid-tile>
 

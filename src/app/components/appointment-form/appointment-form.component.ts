@@ -61,6 +61,8 @@ export class AppointmentFormComponent implements OnInit {
   private patient: Patient;
   private appointment: Appointment;
   private appointments: Appointment[];
+  private currentDate: string;
+  private schedulesBeforeSet: string[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -106,8 +108,6 @@ export class AppointmentFormComponent implements OnInit {
 
     this.loadDoctors();
 
-    this.loadSchedules();
-
     /**
      * Initialize the gender selection
      */
@@ -125,21 +125,73 @@ export class AppointmentFormComponent implements OnInit {
      * Call to the JSONReader service, in order to get the doctor array
      */
     this.appointmentService.getDoctors().subscribe(doctorData => {
-      this.doctors = doctorData.doctors;
+      this.doctors = doctorData;
+    }, error => console.log(error));
+  }
+
+  /**
+   * Service to get the schedules the first time, to initiate the calendar day
+   */
+  loadSchedulesFirstTime() {
+    /**
+     * Call to the JSONReader service, in order to get the schedule array
+     */
+    this.appointmentService.getSchedules(this.selectedDoctor.id.toString(), (moment().month() + 1).toString(), moment().year().toString()).subscribe(scheduleData => {
+      this.currentDate = "";
+      this.schedulesBeforeSet = [];
+
+      scheduleData.forEach(schedule => {
+        if (this.currentDate === "") {
+          this.currentDate = schedule.split("T")[0];
+          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+        } else if (this.currentDate === schedule.split("T")[0]) {
+          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+        } else {
+          this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
+          this.currentDate = schedule.split("T")[0];
+          this.schedulesBeforeSet = [];
+          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+        }
+      });
+
+      this.currentDate = "";
+      this.schedulesBeforeSet = [];
+
+      this.dateSelected(moment());
+      this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.conversionToPersonnalDateFormat(moment()));
     }, error => console.log(error));
   }
 
   /**
    * Service to get the schedules
    */
-  loadSchedules() {
+  loadSchedules(value: Moment) {
     /**
      * Call to the JSONReader service, in order to get the schedule array
      */
-    this.appointmentService.getSchedules().subscribe(scheduleData => {
-      this.schedules = scheduleData;
+    this.appointmentService.getSchedules(this.selectedDoctor.id.toString(), value.month().toString(), value.year().toString()).subscribe(scheduleData => {
+      this.currentDate = "";
+      this.schedulesBeforeSet = [];
+
+      scheduleData.forEach(schedule => {
+        if (this.currentDate === "") {
+          this.currentDate = schedule.split("T")[0];
+          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+        } else if (this.currentDate === schedule.split("T")[0]) {
+          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+        } else {
+          this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
+          this.currentDate = schedule.split("T")[0];
+          this.schedulesBeforeSet = [];
+          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+        }
+      });
+
+      this.currentDate = "";
+      this.schedulesBeforeSet = [];
+
       this.dateSelected(moment());
-      this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.conversionToFrenchDate(moment()));
+      this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.conversionToPersonnalDateFormat(moment()));
     }, error => console.log(error));
   }
 
@@ -155,7 +207,7 @@ export class AppointmentFormComponent implements OnInit {
    * This function converts a date in English format to a date in French format
    * @param value, a moment
    */
-  conversionToFrenchDate(value: Moment) {
+  conversionToPersonnalDateFormat(value: Moment) {
     this.tmpDay = "";
     this.tmpMonth = "";
     if (value.date().toString().length === 1) {
@@ -167,9 +219,9 @@ export class AppointmentFormComponent implements OnInit {
     if (value.month().toString().length === 1) {
       this.tmpMonth = "0" + (value.month() + 1).toString();
     } else {
-      this.tmpMonth = (value.month() + 1).toString();
+      this.tmpMonth = (value.month() + 1 ).toString();
     }
-    return this.tmpDay + "/" + this.tmpMonth + "/" + value.year();
+    return value.year() + "-" +  this.tmpMonth + "-" + this.tmpDay;
   }
 
   /**
@@ -177,9 +229,10 @@ export class AppointmentFormComponent implements OnInit {
    * @param value is the selected date from the calendar
    */
   dateSelected(value: Moment) {
+
     this.findCorrespondingDate = false;
     this.schedules.forEach(schedule => {
-      if (this.conversionToFrenchDate(value) === schedule.date) {
+      if (this.conversionToPersonnalDateFormat(value) === schedule.date) {
         this.dataSource = schedule.appointments;
         this.chooseDate = schedule.date;
         this.findCorrespondingDate = true;
@@ -255,6 +308,7 @@ export class AppointmentFormComponent implements OnInit {
     this.appointmentTabFormGroupe.reset();
 
     this.loadDoctors();
+    this.schedules = [];
   }
 
   /**
@@ -263,10 +317,10 @@ export class AppointmentFormComponent implements OnInit {
   postAndSendAppointment() {
     this.patient = new Patient(this.patientTabFormGroup.get("lastNameCtrl").value, this.patientTabFormGroup.get("firstNameCtrl").value,
       this.patientTabFormGroup.get("phoneCtrl").value, this.patientTabFormGroup.get("mailCtrl").value,
-      this.conversionToFrenchDate(this.patientTabFormGroup.get("birthDateCtrl").value), this.genderConversion(this.patientTabFormGroup.get("genderCtrl").value),
+      this.conversionToPersonnalDateFormat(this.patientTabFormGroup.get("birthDateCtrl").value), this.genderConversion(this.patientTabFormGroup.get("genderCtrl").value),
       parseInt(this.patientTabFormGroup.get("weightCtrl").value, 10), parseInt(this.patientTabFormGroup.get("sizeCtrl").value, 10));
 
-    this.appointment = new Appointment(this.selectedDoctor.id, this.patient, this.appointmentTabFormGroupe.get("dayCtrl").value, this.appointmentTabFormGroupe.get("scheduleCtrl").value);
+    this.appointment = new Appointment(this.selectedDoctor, this.patient, this.appointmentTabFormGroupe.get("dayCtrl").value, this.appointmentTabFormGroupe.get("scheduleCtrl").value);
 
     console.log(JSON.stringify(this.appointment));
 
@@ -275,3 +329,7 @@ export class AppointmentFormComponent implements OnInit {
     this.resetStepper();
   }
 }
+
+// année-mois-jour
+
+// tt:mm

@@ -1,13 +1,15 @@
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 import {Schedule} from "../classes/Schedule";
-import {IDoctors} from "../interfaces/IDoctors";
 import {Appointment} from "../classes/Appointment";
 import {catchError, retry} from "rxjs/operators";
+import {Doctor} from "../classes/Doctor";
 
 @Injectable()
 export class AppointmentService {
+
+  private headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient) {
   }
@@ -15,8 +17,9 @@ export class AppointmentService {
   /**
    * Method to get the JSON with the schedules
    */
-  public getSchedules(): Observable<Schedule[]> {
-    return this.http.get<Schedule[]>("./assets/mydata.json").pipe(retry(3),
+  public getSchedules(doctorId: string, month: string, year: string): Observable<string[]> {
+    return this.http.get<string[]>("http://localhost:8080/BordeauxMedicServer_war_exploded/Schedules/" + doctorId + "/" + month + "/" + year
+    ).pipe(retry(3),
       catchError(this.handleError)
     );
   }
@@ -24,8 +27,8 @@ export class AppointmentService {
   /**
    * Method to get the JSON with the doctors
    */
-  public getDoctors(): Observable<IDoctors> {
-    return this.http.get<IDoctors>("http://localhost:8080/BordeauxMedicServer_war_exploded/Doctors").pipe(retry(3),
+  public getDoctors(): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>("http://localhost:8080/BordeauxMedicServer_war_exploded/Doctors").pipe(retry(3),
       catchError(this.handleError)
     );
   }
@@ -35,9 +38,9 @@ export class AppointmentService {
    * @param appointment is a new appointment
    */
   public postAppointment(appointment: Appointment): Observable<Appointment> {
-    return this.http.post<Appointment>("http://localhost:8080/BordeauxMedicServer_war_exploded/Appointments/post", appointment).pipe(retry(3),
-        catchError(this.handleError)
-      );
+    this.headers.append("Content-Type", "application/json");
+    this.headers.append("Access-Control-Allow-Origin", "*");
+    return this.http.post<Appointment>("http://localhost:8080/BordeauxMedicServer_war_exploded/Appointments", appointment, {headers: this.headers});
   }
 
   /**
