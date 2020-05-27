@@ -9,7 +9,7 @@ export class Appointment {
   /**
    * Attributes
    */
-  doctor: Doctor;
+  doctorId: number;
   patient: Patient;
   date: string;
   time: string;
@@ -22,8 +22,8 @@ export class Appointment {
    * @param date appointment date
    * @param time appointment schedule
    */
-  constructor(doctor: Doctor, patient: Patient, date: string, time: string) {
-    this.doctor = doctor;
+  constructor(doctorId: number, patient: Patient, date: string, time: string) {
+    this.doctorId = doctorId;
     this.patient = patient;
     this.date = date;
     this.time = time;

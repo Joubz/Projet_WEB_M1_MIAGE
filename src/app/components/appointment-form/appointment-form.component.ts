@@ -104,21 +104,9 @@ export class AppointmentFormComponent implements OnInit {
     this.dataSource = [""];
     this.schedules = [];
 
-    /**
-     * Call to the JSONReader service, in order to get the doctor array
-     */
-    this.appointmentService.getDoctors().subscribe(doctorData => {
-      this.doctors = doctorData.doctors;
-    }, error => console.log(error));
+    this.loadDoctors();
 
-    /**
-     * Call to the JSONReader service, in order to get the schedule array
-     */
-    this.appointmentService.getSchedules().subscribe(scheduleData => {
-      this.schedules = scheduleData;
-      this.dateSelected(moment());
-      this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.conversionToFrenchDate(moment()));
-    }, error => console.log(error));
+    this.loadSchedules();
 
     /**
      * Initialize the gender selection
@@ -127,6 +115,32 @@ export class AppointmentFormComponent implements OnInit {
     this.genderSelect.push("Femme", "Homme");
 
     this.appointments = [];
+  }
+
+  /**
+   * Service to get the doctors
+   */
+  loadDoctors() {
+    /**
+     * Call to the JSONReader service, in order to get the doctor array
+     */
+    this.appointmentService.getDoctors().subscribe(doctorData => {
+      this.doctors = doctorData.doctors;
+    }, error => console.log(error));
+  }
+
+  /**
+   * Service to get the schedules
+   */
+  loadSchedules() {
+    /**
+     * Call to the JSONReader service, in order to get the schedule array
+     */
+    this.appointmentService.getSchedules().subscribe(scheduleData => {
+      this.schedules = scheduleData;
+      this.dateSelected(moment());
+      this.appointmentTabFormGroupe.get("dayCtrl").setValue(this.conversionToFrenchDate(moment()));
+    }, error => console.log(error));
   }
 
   /**
@@ -239,6 +253,8 @@ export class AppointmentFormComponent implements OnInit {
     this.doctorTabFormGroup.reset();
     this.selectedDoctor = null;
     this.appointmentTabFormGroupe.reset();
+
+    this.loadDoctors();
   }
 
   /**
@@ -250,7 +266,7 @@ export class AppointmentFormComponent implements OnInit {
       this.conversionToFrenchDate(this.patientTabFormGroup.get("birthDateCtrl").value), this.genderConversion(this.patientTabFormGroup.get("genderCtrl").value),
       parseInt(this.patientTabFormGroup.get("weightCtrl").value, 10), parseInt(this.patientTabFormGroup.get("sizeCtrl").value, 10));
 
-    this.appointment = new Appointment(this.selectedDoctor, this.patient, this.appointmentTabFormGroupe.get("dayCtrl").value, this.appointmentTabFormGroupe.get("scheduleCtrl").value);
+    this.appointment = new Appointment(this.selectedDoctor.id, this.patient, this.appointmentTabFormGroupe.get("dayCtrl").value, this.appointmentTabFormGroupe.get("scheduleCtrl").value);
 
     console.log(JSON.stringify(this.appointment));
 
