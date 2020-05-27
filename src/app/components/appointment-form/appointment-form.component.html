@@ -193,7 +193,7 @@
         <mat-grid-list cols="2">
 
           <mat-grid-tile>
-            <app-calendar #myCalendar (dateSelected)="dateSelected($event)" >
+            <app-calendar #myCalendar (dateSelected)="dateSelected($event)" (monthSelected)="loadSchedules($event)">
             </app-calendar>
           </mat-grid-tile>
 

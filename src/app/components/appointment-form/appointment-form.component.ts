@@ -147,10 +147,16 @@ export class AppointmentFormComponent implements OnInit {
         } else if (this.currentDate === schedule.split("T")[0]) {
           this.schedulesBeforeSet.push(schedule.split("T")[1]);
         } else {
-          this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
-          this.currentDate = schedule.split("T")[0];
-          this.schedulesBeforeSet = [];
-          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          if ( parseInt(this.currentDate.split("-")[2], 10) >=  moment().date()) {
+            this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
+            this.currentDate = schedule.split("T")[0];
+            this.schedulesBeforeSet = [];
+            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          } else {
+            this.currentDate = schedule.split("T")[0];
+            this.schedulesBeforeSet = [];
+            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          }
         }
       });
 
@@ -166,6 +172,11 @@ export class AppointmentFormComponent implements OnInit {
    * Service to get the schedules
    */
   loadSchedules(value: Moment) {
+
+    console.log("it get here");
+
+    this.schedules = [];
+
     /**
      * Call to the JSONReader service, in order to get the schedule array
      */
@@ -180,10 +191,16 @@ export class AppointmentFormComponent implements OnInit {
         } else if (this.currentDate === schedule.split("T")[0]) {
           this.schedulesBeforeSet.push(schedule.split("T")[1]);
         } else {
-          this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
-          this.currentDate = schedule.split("T")[0];
-          this.schedulesBeforeSet = [];
-          this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          if ( parseInt(this.currentDate.split("-")[2], 10) >=  moment().date()) {
+            this.schedules.push(new Schedule(this.currentDate, this.schedulesBeforeSet));
+            this.currentDate = schedule.split("T")[0];
+            this.schedulesBeforeSet = [];
+            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          } else {
+            this.currentDate = schedule.split("T")[0];
+            this.schedulesBeforeSet = [];
+            this.schedulesBeforeSet.push(schedule.split("T")[1]);
+          }
         }
       });
 
@@ -219,9 +236,9 @@ export class AppointmentFormComponent implements OnInit {
     if (value.month().toString().length === 1) {
       this.tmpMonth = "0" + (value.month() + 1).toString();
     } else {
-      this.tmpMonth = (value.month() + 1 ).toString();
+      this.tmpMonth = (value.month() + 1).toString();
     }
-    return value.year() + "-" +  this.tmpMonth + "-" + this.tmpDay;
+    return value.year() + "-" + this.tmpMonth + "-" + this.tmpDay;
   }
 
   /**

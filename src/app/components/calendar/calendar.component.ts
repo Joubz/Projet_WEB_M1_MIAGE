@@ -14,6 +14,9 @@ export class CalendarComponent {
   dateSelected: EventEmitter<Moment> = new EventEmitter();
 
   @Output()
+  monthSelected: EventEmitter<Moment> = new EventEmitter();
+
+  @Output()
   selectedDate = moment();
 
   // @ts-ignore
@@ -31,4 +34,8 @@ export class CalendarComponent {
   }
 
 
+  monthChanged() {
+    this.calendar._goToDateInView(this.selectedDate, "month");
+    this.monthSelected.emit(this.selectedDate);
+  }
 }
